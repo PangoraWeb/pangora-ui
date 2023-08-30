@@ -1,4 +1,5 @@
-import Image from "next/image";
+import {Image} from "@nextui-org/react";
+import NextImage from "next/image";
 
 interface PostArguments {
     title: string;
@@ -23,7 +24,7 @@ const Post = ({ title, upvotes, comments, newComments, user, community, communit
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -4.5 24 24" width="24" fill="currentColor"><path d="M8 11.243l3.95-3.95a1 1 0 1 1 1.414 1.414l-5.657 5.657a.997.997 0 0 1-1.414 0L.636 8.707A1 1 0 1 1 2.05 7.293L6 11.243V1.657a1 1 0 1 1 2 0v9.586z"></path></svg>
             </div>
             {
-                image && <Image src={image} alt="alt" width="90" height="90" className="rounded-lg max-h-[90px]" />
+                image && <Image as={NextImage} src={image} alt="alt" width="90" height="90" className="rounded-lg max-h-[90px]" isZoomed isBlurred />
             }
             {
                 (!image) && <div className="h-[90px] w-[90px] flex items-center justify-center bg-slate-700 rounded">

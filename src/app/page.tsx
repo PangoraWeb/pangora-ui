@@ -10,7 +10,7 @@ import {NextUIProvider} from "@nextui-org/react";
 export default function Home() {
   return (
     <NextUIProvider>
-      <div className='bg-gradient-to-r from-slate-700 to-slate-800 h-screen'>
+      <div className='dark bg-gradient-to-tr from-blue-950 to-fuchsia-950 via-black bg-fixed'>
         <Navbar />
         <div className='flex justify-between'>
           <Feed />

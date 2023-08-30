@@ -71,6 +71,39 @@ const Feed = () => {
                     avatar="/avatar3.png"
                     comments={9}
                 />
+                <Post 
+                    title="The Pyhon dictionary dispatch pattern"
+                    upvotes={27}
+                    time="12 hours ago"
+                    community="Python"
+                    user="PythOnRails"
+                    colors="from-blue-400 to-yellow-500"
+                    communityIcon="/community3.png"
+                    avatar="/avatar3.png"
+                    comments={9}
+                />
+                <Post 
+                    title="The Pyhon dictionary dispatch pattern"
+                    upvotes={27}
+                    time="12 hours ago"
+                    community="Python"
+                    user="PythOnRails"
+                    colors="from-blue-400 to-yellow-500"
+                    communityIcon="/community3.png"
+                    avatar="/avatar3.png"
+                    comments={9}
+                />
+                <Post 
+                    title="The Pyhon dictionary dispatch pattern"
+                    upvotes={27}
+                    time="12 hours ago"
+                    community="Python"
+                    user="PythOnRails"
+                    colors="from-blue-400 to-yellow-500"
+                    communityIcon="/community3.png"
+                    avatar="/avatar3.png"
+                    comments={9}
+                />
             </div>
         </div>
     )
