@@ -9,15 +9,21 @@ export default function Communities({
     slug: string
   }
 }) {
+  const fixedSlug = decodeURIComponent(params.slug)
+
   return (
     <div className="flex">
       <div className="min-w-2/3 max-w-2/3 w-2/3">
-        <Community slug={params.slug} />
+        <Community slug={fixedSlug} />
       </div>
       <div className="min-w-1/3 max-w-1/3 w-1/3">
-        <SidebarCommunity slug={params.slug} />
+        <SidebarCommunity slug={fixedSlug} />
         <SidebarSite />
       </div>
     </div>
   )
 }
+
+/*
+
+*/

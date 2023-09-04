@@ -65,17 +65,33 @@ export function getRelativeCommunityLink(
   community: CommunityView | Community
 ): string {
   if ((<CommunityView>community).community) {
-    const [, link] =
-      /.*:\/\/.*(\/c\/.*)/.exec(
-        (community as CommunityView).community.actor_id
-      ) || []
+    if ((<CommunityView>community).community.local) {
+      const [, link] =
+        /.*:\/\/.*(\/c\/.*)/.exec(
+          (community as CommunityView).community.actor_id
+        ) || []
 
-    return link
+      return link
+    } else {
+      const [, instance, link] =
+        /.*:\/\/(.*)(\/c\/.*)/.exec(
+          (community as CommunityView).community.actor_id
+        ) || []
+
+      return `${link}@${instance}`
+    }
   } else {
-    const [, link] =
-      /.*:\/\/.*(\/c\/.*)/.exec((community as Community).actor_id) || []
+    if ((<Community>community).local) {
+      const [, link] =
+        /.*:\/\/.*(\/c\/.*)/.exec((community as Community).actor_id) || []
 
-    return link
+      return link
+    } else {
+      const [, instance, link] =
+        /.*:\/\/(.*)(\/c\/.*)/.exec((community as Community).actor_id) || []
+
+      return `${link}@${instance}`
+    }
   }
 }
 
