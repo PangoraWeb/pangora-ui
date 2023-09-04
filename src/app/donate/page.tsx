@@ -1,12 +1,5 @@
-"use client"
+import DonationPage from '@/components/DonationPage'
 
-import Navbar from "../components/navigation/navbar";
-
-export default function Page() {
-    return (
-        <div className="bg-slate-800">
-            <Navbar />
-            <p className="text-white">Donation page</p>
-        </div>
-    )
+export default function Donate() {
+  return <DonationPage />
 }

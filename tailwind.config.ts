@@ -6,7 +6,12 @@ const config: Config = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+    './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
+  ],
+  safelist: [
+    {
+      pattern: /hljs+/,
+    },
   ],
   theme: {
     extend: {
@@ -15,9 +20,29 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      typography: () => ({
+        quote: {
+          css: {
+            color: '#999',
+            a: {
+              color: '#31ce82',
+              '&:hover': {
+                color: '#2c8252',
+              },
+            },
+          },
+        },
+      }),
+    },
+    hljs: {
+      theme: 'night-owl',
     },
   },
-  darkMode: "class",
-  plugins: [nextui()],
+  darkMode: 'class',
+  plugins: [
+    nextui(),
+    require('tailwind-highlightjs'),
+    require('@tailwindcss/typography'),
+  ],
 }
 export default config
