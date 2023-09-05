@@ -29,9 +29,11 @@ export default function NavbarTooltip({
           </div>
         </div>
       }
-      delay={800}
+      delay={2000}
       className="flex"
-      classNames={{ base: 'max-w-sm' }}
+      classNames={{
+        base: 'max-w-sm bg-white dark:bg-black',
+      }}
     >
       {children}
     </Tooltip>

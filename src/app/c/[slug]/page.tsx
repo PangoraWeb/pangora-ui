@@ -23,7 +23,3 @@ export default function Communities({
     </div>
   )
 }
-
-/*
-
-*/

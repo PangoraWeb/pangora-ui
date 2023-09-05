@@ -24,10 +24,15 @@ export default function NavbarLink({
   return (
     <NavbarItem
       isActive={link == pathname}
-      className="data-[active=true]:border-b-2 border-blue-500"
+      className="data-[active=true]:border-b-2 border-default-500"
     >
       <NavbarTooltip tooltip={tooltip} disabled={disabled}>
-        <Link isDisabled={disabled} as={NextLink} href={link}>
+        <Link
+          isDisabled={disabled}
+          as={NextLink}
+          href={link}
+          className="h-full text-default-600"
+        >
           {children}
         </Link>
       </NavbarTooltip>

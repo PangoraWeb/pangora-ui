@@ -1,4 +1,4 @@
-import { Button, NavbarItem } from '@nextui-org/react'
+import { Button, Card, NavbarItem } from '@nextui-org/react'
 import NavbarTooltip from './NavbarTooltip'
 import { MouseEventHandler } from 'react'
 
@@ -20,11 +20,19 @@ export default function NavbarButton({
   onClick?: MouseEventHandler<HTMLButtonElement>
 }) {
   return (
-    <NavbarItem className="data-[active=true]:border-b-2 border-blue-500">
+    <NavbarItem>
       <NavbarTooltip tooltip={tooltip} disabled={disabled}>
-        <Button isIconOnly={isIconOnly} onClick={onClick}>
-          {children}
-        </Button>
+        <Card isBlurred className="w-full h-[65%]">
+          <Button
+            isIconOnly={isIconOnly}
+            onClick={onClick}
+            variant="light"
+            className="h-full data-[hover=true]:bg-transparent data-[hover=true]:text-default-500 text-default-600"
+            disableRipple
+          >
+            {children}
+          </Button>
+        </Card>
       </NavbarTooltip>
     </NavbarItem>
   )

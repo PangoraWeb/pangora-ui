@@ -16,6 +16,8 @@
     "@types/react-dom": "18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
     "autoprefixer": "10.4.15",
+    "bufferutil": "^4.0.7",
+    "canvas": "^2.11.2",
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
     "dompurify": "^3.0.5",
@@ -50,7 +52,8 @@
     "tailwind-highlightjs": "^2.0.1",
     "tailwindcss": "3.3.3",
     "ts-key-enum": "^2.0.12",
-    "typescript": "5.2.2"
+    "typescript": "5.2.2",
+    "utf-8-validate": "^6.0.3"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9",
