@@ -10,6 +10,8 @@ export default function Input({
   placeholder,
   size,
   startContent,
+  value,
+  onValueChange,
 }: {
   endContent?: React.ReactElement
   startContent?: React.ReactElement
@@ -20,6 +22,8 @@ export default function Input({
   labelPlacement?: 'outside' | 'outside-left' | 'inside'
   placeholder?: string
   size?: 'sm' | 'md' | 'lg'
+  value?: string
+  onValueChange?: (value: string) => void
 }) {
   return (
     <Card isBlurred>
@@ -36,6 +40,8 @@ export default function Input({
         placeholder={placeholder}
         size={size}
         startContent={startContent}
+        value={value}
+        onValueChange={onValueChange}
       />
     </Card>
   )

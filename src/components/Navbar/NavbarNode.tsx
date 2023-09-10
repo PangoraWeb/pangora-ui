@@ -1,7 +1,18 @@
 'use client'
 
-import { Navbar as NavBase, NavbarContent } from '@nextui-org/react'
-import { GetSiteResponse } from 'lemmy-js-client'
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownSection,
+  DropdownTrigger,
+  Navbar as NavBase,
+  NavbarContent,
+  NavbarItem,
+} from '@nextui-org/react'
+import { GetSiteResponse, MyUserInfo } from 'lemmy-js-client'
 import { getSiteIcon, getSiteName } from '@/shared/libs/Lemmy/site'
 import NavbarLink from './NavbarLink'
 import NavbarHotkeys from './NavbarHotkeys'
@@ -10,9 +21,26 @@ import NavbarButton from './NavbarButton'
 import { useTheme } from 'next-themes'
 import NavbarSearch from './NavbarSearch'
 import NavbarDropdown from './NavbarDropdown'
+import { getUser, loggedIn, logout } from '@/shared/libs/Users'
+import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 export default function NavbarNode({ site }: { site: GetSiteResponse }) {
   const { theme, setTheme } = useTheme()
+  const [self, setSelf] = useState<MyUserInfo>()
+  const pathname = usePathname()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (loggedIn() && !self) {
+      fetch()
+    }
+
+    async function fetch() {
+      setSelf(await getUser())
+    }
+  }, [pathname])
 
   return (
     <NavBase
@@ -136,29 +164,86 @@ export default function NavbarNode({ site }: { site: GetSiteResponse }) {
           </svg>
         </NavbarButton>
 
-        {/* Log In */}
-        <NavbarLink
-          tooltip={{
-            title: 'Login',
-            description: 'Log in to your programming.dev account.',
-            key: 'O',
-          }}
-          link="/login"
-        >
-          Login
-        </NavbarLink>
+        {self ? (
+          <NavbarItem>
+            <Dropdown className="bg-black">
+              <DropdownTrigger className="text-base">
+                <Button
+                  variant="bordered"
+                  className="text-white rounded-full"
+                  isIconOnly
+                >
+                  <Avatar src={self.local_user_view.person.avatar} />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownSection showDivider>
+                  <DropdownItem
+                    key="profile"
+                    onClick={() => {
+                      router.push(self.local_user_view.person.actor_id)
+                    }}
+                  >
+                    Profile
+                  </DropdownItem>
+                  <DropdownItem key="settings">Settings</DropdownItem>
+                </DropdownSection>
+                <DropdownSection showDivider>
+                  <DropdownItem key="logout">Info</DropdownItem>
+                  <DropdownItem key="logout">Terms & Policies</DropdownItem>
+                  <DropdownItem
+                    key="logout"
+                    className="text-success"
+                    color="success"
+                    onClick={() => {
+                      router.push('/donate')
+                    }}
+                  >
+                    Donate
+                  </DropdownItem>
+                </DropdownSection>
+                <DropdownSection showDivider>
+                  <DropdownItem
+                    key="logout"
+                    className="text-danger"
+                    color="danger"
+                    onClick={() => {
+                      logout()
+                    }}
+                  >
+                    Logout
+                  </DropdownItem>
+                </DropdownSection>
+              </DropdownMenu>
+            </Dropdown>
+          </NavbarItem>
+        ) : (
+          <div className="flex gap-4">
+            {/* Log In */}
+            <NavbarLink
+              tooltip={{
+                title: 'Login',
+                description: 'Log in to your programming.dev account.',
+                key: 'O',
+              }}
+              link="/login"
+            >
+              Login
+            </NavbarLink>
 
-        {/* Sign Up */}
-        <NavbarLink
-          tooltip={{
-            title: 'Sign Up',
-            description: 'Sign up for an account on the site.',
-            key: 'P',
-          }}
-          link="/signup"
-        >
-          Sign Up
-        </NavbarLink>
+            {/* Sign Up */}
+            <NavbarLink
+              tooltip={{
+                title: 'Sign Up',
+                description: 'Sign up for an account on the site.',
+                key: 'P',
+              }}
+              link="/signup"
+            >
+              Sign Up
+            </NavbarLink>
+          </div>
+        )}
       </NavbarContent>
     </NavBase>
   )

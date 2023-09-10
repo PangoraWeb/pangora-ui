@@ -1,9 +1,10 @@
 'use client'
 
-import { Avatar, Card, CardBody, CardHeader } from '@nextui-org/react'
+import { Avatar, Button, Card, CardBody, CardHeader } from '@nextui-org/react'
 import { GetCommunityResponse } from 'lemmy-js-client'
 import ModeratorGroup from './ModeratorGroup'
 import { mdToHtml } from '@/shared/libs/Markdown'
+import { hideCommunity } from '@/shared/libs/Lemmy/community'
 
 export default function SidebarCommunityNode({
   community,
@@ -36,6 +37,13 @@ export default function SidebarCommunityNode({
             )}
             className="prose mt-6 prose-invert prose-img:my-1 prose-sm"
           ></div>
+          <Button
+            onClick={() => {
+              hideCommunity(community.community_view)
+            }}
+          >
+            Hide Community
+          </Button>
         </CardBody>
       </Card>
       <ModeratorGroup moderators={community?.moderators || []} />

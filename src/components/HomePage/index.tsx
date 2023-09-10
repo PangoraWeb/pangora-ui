@@ -5,8 +5,8 @@ import Tagline from '../Tagline'
 
 export default async function HomePage() {
   const [localPosts, allPosts] = await Promise.all([
-    getPosts({ sort: 'Active', type_: 'Local', limit: 50 }),
-    getPosts({ sort: 'Active', type_: 'All', limit: 50 }),
+    getPosts({ sort: 'New', type_: 'Local', limit: 50 }),
+    getPosts({ sort: 'New', type_: 'All', limit: 50 }),
   ])
 
   return (

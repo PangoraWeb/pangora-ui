@@ -8,6 +8,7 @@ import {
 } from 'lemmy-js-client'
 import { client } from '.'
 import { differenceInDays } from 'date-fns'
+import { getAuth } from '../Users'
 
 export async function getCommunities(
   form?: ListCommunities
@@ -151,4 +152,25 @@ export function isCommunityIn(
     communities.findIndex((c) => community.community.id === c.community.id) !==
     -1
   )
+}
+
+export async function hideCommunity(community: CommunityView) {
+  const auth = await getAuth()
+
+  const data = {
+    community_id: community.community.id,
+    hidden: true,
+    auth: auth,
+  }
+  const json = JSON.stringify(data)
+
+  const xhttp = new XMLHttpRequest()
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(this)
+    }
+  }
+  xhttp.open('PUT', 'http://programming.dev/api/v3/community/hide', true)
+  xhttp.setRequestHeader('Content-Type', 'application/json')
+  xhttp.send(json)
 }

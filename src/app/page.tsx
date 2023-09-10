@@ -1,5 +1,9 @@
+import HomePage from '@/components/HomePage'
+//import SidebarSite from '@/components/SidebarSite'
+//import Tagline from '@/components/Tagline'
+
 export default function Home() {
-  return <div className="flex"></div>
+  return <HomePage />
 }
 
 /*
