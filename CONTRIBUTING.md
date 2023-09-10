@@ -17,7 +17,7 @@ In the project we use:
 - ESLint (Static code analysis tool)
 - NextUI (UI library)
 - Prettier (Code formatter)
-- Jam Icons (Icons)
+- Jam Icons & Simple Icons (Icons)
 
 When you commit code it will be checked against ESLint to see if theres any issues with the syntax. It will tell you everything wrong and then let you fix it before you can finish the commit
 
