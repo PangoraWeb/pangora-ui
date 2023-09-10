@@ -58,7 +58,7 @@ body:
       label: Other Browsers
       description: Enter the name of another browser it appears on if its not available in the dropdown above
     validations:
-      required: true
+      required: false
   - type: input
     id: link
     attributes:
