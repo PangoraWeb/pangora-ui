@@ -21,10 +21,12 @@ In the project we use:
 When you commit code it will be checked against ESLint to see if theres any issues with the syntax. It will tell you everything wrong and then let you fix it before you can finish the commit
 
 ### Getting started
-1. To get the project clone it using `git clone https://github.com/PangoraWeb/pangora-ui.git` (with that ran in a terminal with the location set to the parent folder you want the project folder to reside in)
-2. Go into the folder you just made (pangora-ui) and type npm install to install the dependencies of the project
-3. Type npm run dev to start up the site locally on port 3000. You should now be able to visit it by going to localhost:3000 in your browser (may take a bit to show up the first time but should say compiling /page in the terminal)
-4. Now you can make changes to the code and when you save the file it will reflect it in the localhost:3000 site for instant feedback
+*you can also check out [this repo](https://github.com/firstcontributions/first-contributions) for getting help starting out with contributing on github and for more details on the first steps*
+1. Fork the repository to create a copy of it in your account 
+2. Clone your forked repository to your machine
+3. Go into the folder you just made (pangora-ui) and type npm install to install the dependencies of the project
+4. Type npm run dev to start up the site locally on port 3000. You should now be able to visit it by going to localhost:3000 in your browser (may take a bit to show up the first time but should say compiling /page in the terminal)
+5. Now you can make changes to the code and when you save the file it will reflect it in the localhost:3000 site for instant feedback
 
 ### Adding UI
 We use elements from NextUI to make building up various parts of the frontend much quicker and easier as well as with better accessibility support. You can check out their documentation here: https://nextui.org/docs/guide/introduction and they have various different kinds of things that can be added in as react elements (they have examples of all of the different kinds of elements along with a code tab for each with code on how they created it using the library)
