@@ -1,5 +1,5 @@
-name: Bug Report
-description: 🌱 Feature Request
+name: Feature Request
+description: 🌱 Create a Feature Request
 labels: ["enhancement", "triage"]
 body:
   - type: markdown
