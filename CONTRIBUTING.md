@@ -38,6 +38,8 @@ To style elements we use tailwind which is a CSS framework that allows you to ad
 ## Icons
 For icons we mostly use things from jam icons. You can check out their site [here](https://jam-icons.com/) and search for any icon you might need (note some may have slightly different names than what you expect, e.g. the chat bubble is called "message")). TO use one just hit the copy icon button when hovering over it and then paste that code into where you want it. You can adjust the width property to change the width of it and set the text color in a surrounding div to change the color of the icon
 
+If the icon you want is the icon of a brand you cna get it from https://simpleicons.org/ instead
+
 ## Types
 We use TypeScript which is a strongly typed programming language that builds on JavaScript. This means that you need to explicitly define the types of things if you make a variable as opposed it to being able to be anything. Its a relatively easy syntax and if you know JavaScript you should be able to pick up it pretty easily since its just the same thing but with types. You can find their docs here: https://www.typescriptlang.org/docs/
 
