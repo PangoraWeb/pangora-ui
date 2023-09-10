@@ -63,7 +63,7 @@ body:
     id: link
     attributes:
       label: Site Link
-      description: On what site using pangora can the issue be found on? 
+      description: On what site using Pangora-UI can the issue be found on? 
       placeholder: ex. programming.dev
     validations:
       required: true
@@ -71,7 +71,7 @@ body:
     id: version
     attributes:
       label: Site Version
-      description: What version of pangora-UI is the site that the bug is found on using
+      description: What version of Pangora-UI is the site that the bug is found on using
       placeholder: ex. 0.18.0
     validations:
       required: true
