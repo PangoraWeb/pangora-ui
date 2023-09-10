@@ -17,6 +17,7 @@ In the project we use:
 - ESLint (Static code analysis tool)
 - NextUI (UI library)
 - Prettier (Code formatter)
+- Jam Icons (Icons)
 
 When you commit code it will be checked against ESLint to see if theres any issues with the syntax. It will tell you everything wrong and then let you fix it before you can finish the commit
 
@@ -33,6 +34,9 @@ We use elements from NextUI to make building up various parts of the frontend mu
 
 ### Styling Elements
 To style elements we use tailwind which is a CSS framework that allows you to add CSS without leaving the main site code. Styling is done by assing an attribute named className (dont use class, instead className is used when working with Next.js) and then putting various different text in there based on what tailwind defines to style it. You can find their docs here https://tailwindcss.com/docs/aspect-ratio and you can easily search the tailwind equivalent of vanilla CSS there
+
+## Icons
+For icons we mostly use things from jam icons. You can check out their site [here](https://jam-icons.com/) and search for any icon you might need (note some may have slightly different names than what you expect, e.g. the chat bubble is called "message")). TO use one just hit the copy icon button when hovering over it and then paste that code into where you want it. You can adjust the width property to change the width of it and set the text color in a surrounding div to change the color of the icon
 
 ### Types
 We use TypeScript which is a strongly typed programming language that builds on JavaScript. This means that you need to explicitly define the types of things if you make a variable as opposed it to being able to be anything. Its a relatively easy syntax and if you know JavaScript you should be able to pick up it pretty easily since its just the same thing but with types. You can find their docs here: https://www.typescriptlang.org/docs/
