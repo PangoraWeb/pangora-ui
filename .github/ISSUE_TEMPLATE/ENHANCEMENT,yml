@@ -6,7 +6,7 @@ body:
     attributes:
       value: |
         Thanks for taking the time to suggest some new features for Pangora-UI
-- type: checkboxes
+  - type: checkboxes
     attributes:
       label: Requirements
       description: Before you create a feature request, please check the following –
