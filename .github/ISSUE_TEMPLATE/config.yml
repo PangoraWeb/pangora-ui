@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question
+    url: https://programming.dev/c/pangora
+    about: Ask questions about and do general discussion about Pangora here
+  - name: Backend Issue?
+    url: https://github.com/PangoraWeb/pangora/issues
+    about: For something related to the Pangora Backend go here
