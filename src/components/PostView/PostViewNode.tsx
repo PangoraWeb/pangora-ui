@@ -73,10 +73,17 @@ export function PostViewNode({ post }: PostViewArgs) {
               {post?.post_view.community.title ??
                 post?.post_view.community.name}
             </h4>
-            <h5 className="text-small tracking-tight text-default-400">
-              {post?.post_view.creator.display_name ??
-                post?.post_view.creator.name}
-            </h5>
+            <div className="flex items-start items-center">
+              <h5 className="text-small tracking-tight text-default-400">
+                {post?.post_view.creator.display_name ??
+                  post?.post_view.creator.name}
+              </h5>
+              {post?.post_view.creator.bot_account && (
+                      <div className="text-xs ml-1 px-1 border-default-100 border-1 bg-default-200 rounded text-default-600">
+                        Bot
+                      </div>
+                    )}
+            </div>
           </div>
           <div className="flex flex-col">
             <div
