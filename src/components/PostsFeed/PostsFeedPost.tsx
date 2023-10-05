@@ -72,18 +72,23 @@ export function PostsFeedPost({ post }: { post: PostView }) {
                 <p className="ml-2 pb-1">
                   {post.creator.display_name ?? post.creator.name}
                 </p>
+                {post.creator.bot_account && (
+                  <div className="text-xs ml-1 px-1 mb-1 border-default-100 border-1 bg-default-200 rounded text-default-600">
+                    Bot
+                  </div>
+                )}
               </div>
-              <p className="p-1">to</p>
+              <p className="pb-1 pl-1">to</p>
               <Link
                 href={getRelativeCommunityLink(post.community)}
-                className={`flex items-center p-1 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500`}
+                className={`flex items-center p-1 m-1 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500`}
               >
                 <Image
                   src={post.community.icon}
                   alt="alt"
                   width="24"
                   height="24"
-                  className="rounded-full"
+                  className="rounded-full mb-1"
                 />
                 <p className="ml-2 pb-1">
                   {post.community.title} ({getCommunityInstance(post.community)}
