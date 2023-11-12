@@ -1,7 +1,7 @@
 name: Bug Report
 description: 🐞 File a bug report
-title: "[Bug]: "
-labels: ["bug", "triage"]
+title: '[Bug]: '
+labels: ['bug', 'triage']
 body:
   - type: markdown
     attributes:
@@ -63,7 +63,7 @@ body:
     id: link
     attributes:
       label: Site Link
-      description: On what site using Pangora-UI can the issue be found on? 
+      description: On what site using Pangora-UI can the issue be found on?
       placeholder: ex. programming.dev
     validations:
       required: true
