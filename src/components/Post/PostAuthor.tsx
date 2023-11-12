@@ -1,4 +1,14 @@
-import { Avatar, Badge } from '@nextui-org/react'
+import {
+  getCommunityIcon,
+  getCommunityName,
+  getRelativeCommunityLink,
+} from '@/shared/libs/Lemmy/community'
+import {
+  getPersonAvatar,
+  getPersonName,
+  getRelativePersonLink,
+} from '@/shared/libs/Lemmy/person'
+import { Avatar, Badge, Link } from '@nextui-org/react'
 import { PostView } from 'lemmy-js-client'
 
 export default function PostAuthor({ post }: { post: PostView }) {
@@ -6,25 +16,43 @@ export default function PostAuthor({ post }: { post: PostView }) {
     <div className="flex gap-5 items-center">
       <Badge
         content={
-          <Avatar
-            isBordered
-            radius="full"
-            size="sm"
-            src={post.creator.avatar}
-            className="w-3 h-3"
-          />
+          <Link href={getRelativePersonLink(post.creator)}>
+            <Avatar
+              isBordered
+              radius="full"
+              size="sm"
+              src={getPersonAvatar(post.creator)}
+              className="w-3 h-3"
+            />
+          </Link>
         }
         placement="bottom-right"
       >
-        <Avatar isBordered radius="full" size="md" src={post.community.icon} />
+        <Link href={getRelativeCommunityLink(post.community)}>
+          <Avatar
+            isBordered
+            radius="full"
+            size="md"
+            src={getCommunityIcon(post.community)}
+          />
+        </Link>
       </Badge>
       <div className="flex flex-col gap-1 items-start justify-center">
-        <h4 className="text-small font-semibold leading-none text-default-600">
-          {post.community.title ?? post.community.name}
-        </h4>
-        <h5 className="text-small tracking-tight text-default-400">
-          {post.creator.display_name ?? post.creator.name}
-        </h5>
+        <Link href={getRelativeCommunityLink(post.community)}>
+          <h4 className="text-small font-semibold leading-none text-default-600">
+            {getCommunityName(post.community)}
+          </h4>
+        </Link>
+        <Link href={getRelativePersonLink(post.creator)}>
+          <h5 className="text-small tracking-tight text-default-400">
+            {getPersonName(post.creator)}
+          </h5>
+        </Link>
+        {post.creator.bot_account && (
+          <div className="text-xs ml-1 px-1 mb-1 border-default-100 border-1 bg-default-200 rounded text-default-600">
+            Bot
+          </div>
+        )}
       </div>
     </div>
   )

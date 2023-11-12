@@ -25,21 +25,21 @@ export function PostFeedPostCollapsedTitle({
         onClick={() => setPreview(post)}
         className={`text-transparent bg-clip-text bg-gradient-to-r text-xs hover:cursor-pointer ${
           post.post.featured_community
-            ? 'from-green-400 to-teal-500'
-            : 'from-default-600 to-default-500'
+            ? 'from-green-600 to-teal-700'
+            : 'from-default-400 to-default-300'
         }`}
       >
         {getPostTitle(post)}
       </Link>
       {getPostURL(post) && (
-        <Link href={getPostURL(post)} className="text-[0.6em] text-blue-800">
+        <Link href={getPostURL(post)} className="text-[0.6em] text-blue-900">
           <p>({getPostSource(post)})</p>
         </Link>
       )}
       {post.post.featured_community && (
         <Popover>
           <PopoverTrigger>
-            <div className="text-teal-500 hover:cursor-pointer">
+            <div className="text-teal-700 hover:cursor-pointer">
               <PinIcon width={18} />
             </div>
           </PopoverTrigger>

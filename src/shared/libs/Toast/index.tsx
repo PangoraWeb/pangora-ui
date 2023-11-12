@@ -8,6 +8,7 @@ import {
   getTextColor,
 } from '../Color'
 import { ReactNode } from 'react'
+import LinkIcon from '@/icons/LinkIcon'
 
 export function toastMessage(
   title: string,
@@ -38,6 +39,6 @@ export function toastError(title: string, message: string) {
   toastMessage(title, message, 'red', <StopIcon />)
 }
 
-/*
-"bg-red-950 text-red-400 border-red-400 border-1"
-*/
+export function toastLink(title: string, message: string) {
+  toastMessage(title, message, 'green', <LinkIcon />)
+}

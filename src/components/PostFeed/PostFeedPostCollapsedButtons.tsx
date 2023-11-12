@@ -24,7 +24,7 @@ export function PostFeedPostCollapsedButtons({
   return (
     <div className="flex items-center gap-2">
       <Link
-        className="gap-1 hover:cursor-pointer text-default-400 hover:cursor-pointer"
+        className="gap-1 hover:cursor-pointer text-default-200 hover:cursor-pointer"
         onClick={() => setPreview(post)}
       >
         <MessageIcon width={12} />
@@ -32,7 +32,7 @@ export function PostFeedPostCollapsedButtons({
       </Link>
       <Popover>
         <PopoverTrigger>
-          <Link className="gap-1 hover:cursor-pointer text-default-400">
+          <Link className="gap-1 hover:cursor-pointer text-default-200">
             <ShuffleIcon width={12} />
             <p className="text-xs">{duplicates ? duplicates.length : 0}</p>
           </Link>
@@ -53,7 +53,7 @@ export function PostFeedPostCollapsedButtons({
         </PopoverContent>
       </Popover>
       <Link
-        className="gap-1 hover:cursor-pointer text-default-400"
+        className="gap-1 hover:cursor-pointer text-default-200"
         onClick={() => toggleCollapsed()}
       >
         <PlusIcon width={12} />

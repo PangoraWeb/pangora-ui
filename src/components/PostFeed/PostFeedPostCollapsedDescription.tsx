@@ -6,7 +6,7 @@ export function PostFeedPostCollapsedDescription({ post }: { post: PostView }) {
   return (
     <div className="flex flex-row gap-1 text-[0.5em] items-stretch">
       <PostFeedPostCollapsedAuthor author={post.creator} />
-      <p className="cursor-default">to</p>
+      <p className="cursor-default text-default-300">to</p>
       <PostFeedPostCollapsedCommunity post={post} />
     </div>
   )

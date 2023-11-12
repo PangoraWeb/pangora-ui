@@ -14,7 +14,7 @@ export default function CommunityNode({
   return (
     <div className="flex mt-4">
       <div className="w-full">
-        <Card isBlurred>
+        <Card className="bg-opacity-0">
           <div className="w-full h-[200px] overflow-hidden absolute">
             <Image
               src={community.community_view.community.banner}

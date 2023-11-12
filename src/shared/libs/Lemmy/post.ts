@@ -6,7 +6,7 @@ import {
   Post,
   PostView,
 } from 'lemmy-js-client'
-import { client } from '.'
+import { baseName, client } from '.'
 import { getRelativeTimeText } from '../Time'
 import { cleanText } from '../Text'
 
@@ -128,6 +128,13 @@ export function getRelativePostLink(post: PostType) {
   const postId = getPostId(post)
 
   return `/post/${postId}`
+}
+
+export function getCompleteRelativePostLink(post: PostType) {
+  const postId = getPostId(post)
+  const domain = baseName
+
+  return `https://${domain}/post/${postId}`
 }
 
 // --- Helper Functions --------------------------------------------------------

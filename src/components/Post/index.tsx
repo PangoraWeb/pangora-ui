@@ -6,7 +6,7 @@ export default async function Post({ id }: { id: number }) {
 
   return (
     <div>
-      <PostNode post={post.post_view} />
+      <PostNode post={post.post_view} duplicates={post.cross_posts} />
     </div>
   )
 }

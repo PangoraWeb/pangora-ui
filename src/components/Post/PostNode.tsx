@@ -1,6 +1,6 @@
 'use client'
 
-import { Card, CardHeader } from '@nextui-org/card'
+import { Card, CardHeader, CardBody } from '@nextui-org/card'
 import { CommentView, PostView } from 'lemmy-js-client'
 import { useEffect, useState } from 'react'
 import PostScore from './PostScore'
@@ -12,26 +12,59 @@ import { CommentsView } from '../CommentsView'
 import SidebarCommunity from '../SidebarCommunity'
 import SidebarSite from '../SidebarSite'
 import SidebarUser from '../SidebarUser'
+import PostBody from './PostBody'
+import PostButtons from './PostButtons'
 
-export default function PostNode({ post }: { post: PostView }) {
+export default function PostNode({
+  post,
+  duplicates,
+}: {
+  post: PostView
+  duplicates: PostView[]
+}) {
   const [comments, setComments] = useState<CommentView[]>([])
+  const [bodySourceActive, setBodySourceActive] = useState(false)
+  const [commentsShown, setCommentsShown] = useState(true)
 
   useEffect(() => {
     async function fetchData() {
-      setComments(
-        (
+      const duplicatePostComments = await Promise.all(
+        duplicates.map((post) =>
+          getComments({
+            post_id: post.post.id,
+            limit: 50,
+            type_: 'All',
+          })
+        )
+      )
+      const duplicateComments = duplicatePostComments
+        .map((comment) => comment.comments)
+        .flat()
+
+      setComments([
+        ...(
           await getComments({
             post_id: post.post.id,
             limit: 50,
+            type_: 'All',
           })
-        ).comments
-      )
+        ).comments,
+        ...duplicateComments,
+      ])
     }
     fetchData()
   }, [])
 
+  function toggleBodySource() {
+    setBodySourceActive(!bodySourceActive)
+  }
+
+  function toggleComments() {
+    setCommentsShown(!commentsShown)
+  }
+
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row overflow-y-auto h-[calc(100vh-50px)]">
       <div className="w-2/3">
         <Card className="p-4 my-4 mx-1" isBlurred>
           <CardHeader className="flex justify-between">
@@ -50,8 +83,23 @@ export default function PostNode({ post }: { post: PostView }) {
               <PostThumbnail post={post} />
             </div>
           </CardHeader>
+          {post.post.body && (
+            <div>
+              <hr className="border-gray-700 m-2" />
+              <CardBody>
+                <PostBody bodySourceActive={bodySourceActive} post={post} />
+              </CardBody>
+            </div>
+          )}
         </Card>
-        <CommentsView post={post} comments={comments} />
+        <PostButtons
+          post={post}
+          toggleBodySource={toggleBodySource}
+          bodySourceActive={bodySourceActive}
+          duplicates={duplicates}
+          toggleComments={toggleComments}
+        />
+        {commentsShown && <CommentsView post={post} comments={comments} />}
       </div>
       <div className="w-1/3 flex flex-col py-2">
         <SidebarUser id={post.creator.id} />

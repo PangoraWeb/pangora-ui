@@ -17,7 +17,7 @@ export function PostFeedPostCollapsedAuthor({ author }: { author: Person }) {
         alt="alt"
         className="rounded-full max-h-[8px] max-w-[8px] bg-transparent"
       />
-      <p className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-500">
+      <p className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-700">
         {getPersonName(author)}
       </p>
     </Link>

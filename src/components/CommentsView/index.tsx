@@ -148,6 +148,24 @@ function buildCommentsTree(comments: CommentView[], parentComment: boolean) {
 }
 
 /*
+<h5 className="text-xs tracking-tight text-default-400">
+                {comment && getPersonTag(comment.creator)}
+              </h5>
+
+
+              <div className="flex flex-col gap-1 items-start justify-center ">
+                <h4 className="text-xs">
+                  {comment?.creator.display_name ?? comment?.creator.name}
+                </h4>
+              </div>
+              {comment?.creator.bot_account && (
+                <div className="ml-1 px-1 border-default-100 border-1 bg-default-200 rounded text-default-600 text-xs">
+                  Bot
+                </div>
+              )}
+*/
+
+/*
 interface CommentViewArgs {
   comment?: CommentView
   className?: string
@@ -223,6 +241,17 @@ function CommentView2({
               <h5 className="text-xs tracking-tight text-default-400">
                 {comment && getPersonTag(comment.creator)}
               </h5>
+            <div className="flex gap-1 items-start justify-center items-center">
+              <div className="flex flex-col gap-1 items-start justify-center ">
+                <h4 className="text-xs">
+                  {comment?.creator.display_name ?? comment?.creator.name}
+                </h4>
+              </div>
+              {comment?.creator.bot_account && (
+                <div className="ml-1 px-1 border-default-100 border-1 bg-default-200 rounded text-default-600 text-xs">
+                  Bot
+                </div>
+              )}
             </div>
             <p className="text-default-400 text-xs">{`${comment?.comment.content.slice(
               0,
@@ -275,13 +304,23 @@ function CommentView2({
                   src={comment?.creator.avatar}
                 />
               </Badge>
-              <div className="flex flex-col gap-1 items-start justify-center">
-                <h4 className="text-xs font-semibold leading-none text-default-600">
-                  {comment?.creator.display_name ?? comment?.creator.name}
-                </h4>
-                <h5 className="text-xs tracking-tight text-default-400">
-                  {comment && getPersonTag(comment?.creator)}
-                </h5>
+              <div className="flex items-start">
+                <div className="flex flex-col gap-1 items-start justify-center">
+                  <div className="flex gap-1 items-start justify-center items-center">
+                    <h4 className="text-xs font-semibold leading-none text-default-600 justify-center">
+                      {comment?.creator.display_name ?? comment?.creator.name}
+                    </h4>
+                    {comment?.creator.bot_account && (
+                      <div className="text-xs ml-1 px-1 border-default-100 border-1 bg-default-200 rounded text-default-600">
+                        Bot
+                      </div>
+                    )}
+                  </div>
+
+                  <h5 className="text-xs tracking-tight text-default-400">
+                    {comment && getPersonTag(comment?.creator)}
+                  </h5>
+                </div>
               </div>
             </div>
             <div className="flex text-default-400">

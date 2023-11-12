@@ -40,7 +40,7 @@ We use elements from NextUI to make building up various parts of the frontend mu
 
 ## Styling Elements
 
-To style elements we use tailwind which is a CSS framework that allows you to add CSS without leaving the main site code. Styling is done by assing an attribute named className (dont use class, instead className is used when working with Next.js) and then putting various different text in there based on what tailwind defines to style it. You can find their docs here https://tailwindcss.com/docs/aspect-ratio and you can easily search the tailwind equivalent of vanilla CSS there
+To style elements we use tailwind which is a CSS framework that allows you to add CSS without leaving the main site code. Styling is done by adding an attribute named className (dont use class, instead className is used when working with Next.js) and then putting various different text in there based on what tailwind defines to style it. You can find their docs here https://tailwindcss.com/docs/aspect-ratio and you can easily search the tailwind equivalent of vanilla CSS there
 
 ## Icons
 

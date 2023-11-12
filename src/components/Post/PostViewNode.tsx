@@ -15,12 +15,19 @@ import {
   PopoverTrigger,
 } from '@nextui-org/react'
 import { GetPostResponse } from 'lemmy-js-client'
+import React, { useState } from 'react'
+import ViewSourceButton from './ViewSourceButton'
 
 interface PostViewArgs {
   post?: GetPostResponse
 }
 
 export function PostViewNode({ post }: PostViewArgs) {
+  const [viewSource, setViewSource] = useState(false)
+  const handleToggle = (isToggled: boolean) => {
+    setViewSource(isToggled)
+  }
+
   return (
     <Card className="p-4 my-4 mx-1" isBlurred>
       <CardHeader className="flex justify-between">
@@ -73,29 +80,41 @@ export function PostViewNode({ post }: PostViewArgs) {
               {post?.post_view.community.title ??
                 post?.post_view.community.name}
             </h4>
-            <h5 className="text-small tracking-tight text-default-400">
-              {post?.post_view.creator.display_name ??
-                post?.post_view.creator.name}
-            </h5>
+            <div className="flex items-start items-center">
+              <h5 className="text-small tracking-tight text-default-400">
+                {post?.post_view.creator.display_name ??
+                  post?.post_view.creator.name}
+              </h5>
+              {post?.post_view.creator.bot_account && (
+                <div className="text-xs ml-1 px-1 border-default-100 border-1 bg-default-200 rounded text-default-600">
+                  Bot
+                </div>
+              )}
+            </div>
           </div>
           <div className="flex flex-col">
             <div
               className="text-lg"
               dangerouslySetInnerHTML={mdToHtml(post?.post_view.post.name)}
             />
-            {post?.post_view.post.url && (
-              <div className="flex text-xs text-gray-500">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="-3 -3 24 24"
-                  width="16"
-                  fill="currentColor"
-                >
-                  <path d="M3.19 9.345a.97.97 0 0 1 1.37 0 .966.966 0 0 1 0 1.367l-2.055 2.052a1.932 1.932 0 0 0 0 2.735 1.94 1.94 0 0 0 2.74 0l4.794-4.787a.966.966 0 0 0 0-1.367.966.966 0 0 1 0-1.368.97.97 0 0 1 1.37 0 2.898 2.898 0 0 1 0 4.103l-4.795 4.787a3.879 3.879 0 0 1-5.48 0 3.864 3.864 0 0 1 0-5.47L3.19 9.344zm11.62-.69a.97.97 0 0 1-1.37 0 .966.966 0 0 1 0-1.367l2.055-2.052a1.932 1.932 0 0 0 0-2.735 1.94 1.94 0 0 0-2.74 0L7.962 7.288a.966.966 0 0 0 0 1.367.966.966 0 0 1 0 1.368.97.97 0 0 1-1.37 0 2.898 2.898 0 0 1 0-4.103l4.795-4.787a3.879 3.879 0 0 1 5.48 0 3.864 3.864 0 0 1 0 5.47L14.81 8.656z"></path>
-                </svg>
-                <p>{post?.post_view.post.url}</p>
-              </div>
-            )}
+            <div className="flex text-xs text-gray-500">
+              {post?.post_view.post.url && (
+                <>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="-3 -3 24 24"
+                    width="16"
+                    fill="currentColor"
+                  >
+                    <path d="M3.19 9.345a.97.97 0 0 1 1.37 0 .966.966 0 0 1 0 1.367l-2.055 2.052a1.932 1.932 0 0 0 0 2.735 1.94 1.94 0 0 0 2.74 0l4.794-4.787a.966.966 0 0 0 0-1.367.966.966 0 0 1 0-1.368.97.97 0 0 1 1.37 0 2.898 2.898 0 0 1 0 4.103l-4.795 4.787a3.879 3.879 0 0 1-5.48 0 3.864 3.864 0 0 1 0-5.47L3.19 9.344zm11.62-.69a.97.97 0 0 1-1.37 0 .966.966 0 0 1 0-1.367l2.055-2.052a1.932 1.932 0 0 0 0-2.735 1.94 1.94 0 0 0-2.74 0L7.962 7.288a.966.966 0 0 0 0 1.367.966.966 0 0 1 0 1.368.97.97 0 0 1-1.37 0 2.898 2.898 0 0 1 0-4.103l4.795-4.787a3.879 3.879 0 0 1 5.48 0 3.864 3.864 0 0 1 0 5.47L14.81 8.656z"></path>
+                  </svg>
+                  <p className="ml-1">{post?.post_view.post.url}</p>
+                </>
+              )}
+              {post?.post_view.post.body && (
+                <ViewSourceButton onToggle={handleToggle} />
+              )}
+            </div>
           </div>
         </div>
         {post?.post_view.post.thumbnail_url ?? post?.post_view.post.url ? (
@@ -151,10 +170,22 @@ export function PostViewNode({ post }: PostViewArgs) {
         <div>
           <hr className="border-gray-700 m-2" />
           <CardBody>
-            <div
-              className="prose prose-invert prose-sm max-w-none"
-              dangerouslySetInnerHTML={mdToHtml(post?.post_view.post.body)}
-            />
+            <div>
+              {post?.post_view.post.body ? (
+                viewSource ? (
+                  <pre className="prose prose-invert prose-sm max-w-none">
+                    {post.post_view.post.body}
+                  </pre>
+                ) : (
+                  <div
+                    className="prose prose-invert prose-sm max-w-none"
+                    dangerouslySetInnerHTML={mdToHtml(post.post_view.post.body)}
+                  />
+                )
+              ) : (
+                <></>
+              )}
+            </div>
           </CardBody>
         </div>
       )}

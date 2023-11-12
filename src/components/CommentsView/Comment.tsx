@@ -13,9 +13,7 @@ import {
   DropdownMenu,
   DropdownSection,
   DropdownTrigger,
-  Spacer,
 } from '@nextui-org/react'
-import { mdToHtml } from '@/shared/libs/Markdown'
 import { getCommentContent, saveComment } from '@/shared/libs/Lemmy/comment'
 import { CommentCollapseBar } from './CommentCollapseBar'
 import { getPersonName, getPersonTag } from '@/shared/libs/Lemmy/person'
@@ -29,6 +27,7 @@ import StopIcon from '@/icons/StopIcon'
 import FlagIcon from '@/icons/FlagIcon'
 import { toast } from 'sonner'
 import BookmarkRemoveIcon from '@/icons/BookmarkRemoveIcon'
+import { CommentBody } from './CommentBody'
 
 export default function Comment({
   comment,
@@ -49,8 +48,6 @@ export default function Comment({
 
   useEffect(() => {
     if (user) {
-      console.log(comment)
-      console.log(comment.saved)
       setBookmarked(comment.saved)
     }
   }, [user])
@@ -280,29 +277,13 @@ export default function Comment({
             </CardHeader>
           </div>
         ) : (
-          <CardBody className="py-1 pr-3 pl-2">
-            {/* Comment Content */}
-            <div
-              className="prose prose-invert max-w-none prose-sm"
-              dangerouslySetInnerHTML={mdToHtml(getCommentContent(comment))}
-            />
-
-            <Spacer y={2} />
-
-            {/* Child Comments */}
-            {children &&
-              children.map((child) => (
-                <Comment
-                  key={child.comment.comment.id}
-                  comment={child.comment}
-                  depth={child.depth}
-                  className="my-3"
-                  user={user}
-                >
-                  {child.children}
-                </Comment>
-              ))}
-          </CardBody>
+          <CommentBody
+            comment={comment}
+            user={user}
+            toggleCollapsed={toggleCollapsed}
+          >
+            {children}
+          </CommentBody>
         )}
       </div>
     </Card>

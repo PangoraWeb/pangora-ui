@@ -28,7 +28,7 @@ export function PostFeedPostCollapsedCommunity({
         alt="alt"
         className="rounded-full max-h-[8px] max-w-[8px] bg-transparent"
       />
-      <p className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">
+      <p className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-purple-700">
         {getCommunityName(post.community)}
       </p>
     </Link>
