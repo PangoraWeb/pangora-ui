@@ -2,11 +2,11 @@
 
 import { PostView } from 'lemmy-js-client'
 import { useState, useRef } from 'react'
-import { PostsFeed } from '../PostsFeed'
 import { Button, ButtonGroup } from '@nextui-org/react'
 import NavbarTooltip from '../Navbar/NavbarTooltip'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { useTheme } from 'next-themes'
+import { PostFeed } from '../PostFeed'
 
 export default function HomeNode({
   localPosts,
@@ -127,10 +127,10 @@ export default function HomeNode({
       {(() => {
         switch (scope) {
           case 'Local': {
-            return <PostsFeed posts={localPosts} />
+            return <PostFeed posts={localPosts} />
           }
           default:
-            return <PostsFeed posts={allPosts} />
+            return <PostFeed posts={allPosts} />
         }
       })()}
     </div>

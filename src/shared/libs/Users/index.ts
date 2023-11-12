@@ -10,6 +10,7 @@ export function loginHandle(res: LoginResponse) {
 
   if (isBrowser() && res.jwt) {
     setAuthCookie(res.jwt)
+    client.setHeaders({ Authorization: `Bearer ${res.jwt}` })
   }
 }
 
@@ -44,12 +45,14 @@ export async function getUser() {
   const { jwt } = parse(document.cookie)
 
   if (jwt) {
-    return (await client.getSite({ auth: jwt })).my_user
+    client.setHeaders({ Authorization: `Bearer ${jwt}` })
+    return (await client.getSite()).my_user
   } else return undefined
 }
 
 export async function getAuth() {
   const { jwt } = parse(document.cookie)
+  client.setHeaders({ Authorization: `Bearer ${jwt}` })
   return jwt
 }
 

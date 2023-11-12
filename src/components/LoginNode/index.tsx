@@ -4,14 +4,12 @@ import { useState } from 'react'
 import Input from '../Input'
 import { Button, Link } from '@nextui-org/react'
 import { login } from '@/shared/libs/Lemmy/person'
-import { useRouter } from 'next/navigation'
 import { loginHandle } from '@/shared/libs/Users'
 
 export default function LoginNode() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const router = useRouter()
 
   const toggleVisibility = () => setIsPasswordVisible(!isPasswordVisible)
 
@@ -65,8 +63,9 @@ export default function LoginNode() {
           onClick={async () => {
             const response = await login(username, password)
             if (response.jwt) {
-              router.push('/')
               loginHandle(response)
+              //router.push('/')
+              //loginHandle(response)
             }
           }}
         >

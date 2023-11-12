@@ -9,6 +9,7 @@ import {
 import { client } from '.'
 import { differenceInDays } from 'date-fns'
 import { getAuth } from '../Users'
+import { cleanText } from '../Text'
 
 export async function getCommunities(
   form?: ListCommunities
@@ -50,8 +51,24 @@ export function getCommunityInstance(
   }
 }
 
-export function getCommunityIcon(community: CommunityView): string {
-  return community.community.icon || ''
+export function getCommunityIcon(
+  community: CommunityView | Community
+): string | undefined {
+  if ((<CommunityView>community).community) {
+    return (community as CommunityView).community.icon
+  } else {
+    return (community as Community).icon
+  }
+}
+
+export function getCommunityLocal(
+  community: CommunityView | Community
+): boolean {
+  if ((<CommunityView>community).community) {
+    return (community as CommunityView).community.local
+  } else {
+    return (community as Community).local
+  }
 }
 
 export function getCommunityLink(community: CommunityView | Community): string {
@@ -96,8 +113,31 @@ export function getRelativeCommunityLink(
   }
 }
 
-export function getCommunityDescription(community: CommunityView): string {
-  return community.community.description || ''
+export function getCommunityDescription(
+  community: CommunityType,
+  maxLength?: number
+): string {
+  let content = ''
+  switch (getCommunityObjectType(community)) {
+    case 'CommunityView': {
+      const typed = community as CommunityView
+      content = typed.community.description || ''
+      break
+    }
+    case 'Community': {
+      const typed = community as Community
+      content = typed.description || ''
+      break
+    }
+  }
+
+  content = cleanText(content)
+
+  if (maxLength && content.length > maxLength) {
+    return content.slice(0, maxLength) + '...'
+  }
+
+  return content
 }
 
 export function getCommunitySubscribers(community: CommunityView): number {
@@ -174,3 +214,15 @@ export async function hideCommunity(community: CommunityView) {
   xhttp.setRequestHeader('Content-Type', 'application/json')
   xhttp.send(json)
 }
+
+// --- Helper Functions --------------------------------------------------------
+
+function getCommunityObjectType(community: Community | CommunityView) {
+  if ((community as CommunityView).community) {
+    return 'CommunityView'
+  } else {
+    return 'Community'
+  }
+}
+
+type CommunityType = CommunityView | Community

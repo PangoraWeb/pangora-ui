@@ -2,7 +2,7 @@
 
 import { Avatar, Card, Image } from '@nextui-org/react'
 import { GetCommunityResponse, GetPostsResponse } from 'lemmy-js-client'
-import { PostsFeed } from '../PostsFeed'
+import { PostFeed } from '../PostFeed'
 
 export default function CommunityNode({
   community,
@@ -40,7 +40,7 @@ export default function CommunityNode({
                 !{community?.community_view.community.name}
               </p>
             </div>
-            <PostsFeed posts={posts.posts} />
+            <PostFeed posts={posts.posts} />
           </div>
         </Card>
       </div>

@@ -17,7 +17,7 @@ export default function Communities({
         <Community slug={fixedSlug} />
       </div>
       <div className="min-w-1/3 max-w-1/3 w-1/3">
-        <SidebarCommunity slug={fixedSlug} />
+        <SidebarCommunity slug={fixedSlug} startButtonsShown={true} />
         <SidebarSite />
       </div>
     </div>

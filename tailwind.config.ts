@@ -25,9 +25,9 @@ const config: Config = {
           css: {
             color: '#999',
             a: {
-              color: '#31ce82',
+              color: '#2eb373',
               '&:hover': {
-                color: '#2c8252',
+                color: '#2a916f',
               },
             },
           },

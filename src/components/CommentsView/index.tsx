@@ -1,45 +1,62 @@
 'use client'
 
-import { getPersonTag } from '@/shared/libs/Lemmy/person'
-import { getCommentTime } from '@/shared/libs/Lemmy/post'
-import { mdToHtml } from '@/shared/libs/Markdown'
+import { Button } from '@nextui-org/react'
 import {
-  Avatar,
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-} from '@nextui-org/react'
-import {
-  GetCommentsResponse,
-  GetPostResponse,
   CommentView,
-  Comment,
+  Comment as BaseComment,
+  MyUserInfo,
+  PostView,
 } from 'lemmy-js-client'
 import { useEffect, useState } from 'react'
+import Comment from './Comment'
+import { getAuth } from '@/shared/libs/Users'
+import { getSite } from '@/shared/libs/Lemmy/site'
 
 interface CommentsViewArgs {
-  comments?: GetCommentsResponse
-  post?: GetPostResponse
+  comments?: CommentView[]
+  post?: PostView
 }
 
 export function CommentsView({ comments, post }: CommentsViewArgs) {
   const [commentTree, setCommentTree] = useState<CommentMapElement[]>()
+  const [user, setUser] = useState<MyUserInfo>()
 
   useEffect(() => {
-    if (comments) setCommentTree(buildCommentsTree(comments.comments, false))
+    fetch()
+
+    async function fetch() {
+      const auth = await getAuth()
+
+      if (auth) {
+        const site = await getSite()
+
+        if (site.my_user) setUser(site.my_user)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (comments) setCommentTree(buildCommentsTree(comments, false))
   }, [comments])
 
   return (
     <div className="m-1">
-      {commentTree?.map((comment) => contructComment(comment))}
-      {(post?.post_view.counts.comments || 0) > (commentTree?.length || 0) && (
+      {commentTree?.map((comment) => (
+        <Comment
+          key={comment.comment.comment.id}
+          comment={comment.comment}
+          depth={comment.depth}
+          className="my-3"
+          user={user}
+        >
+          {comment.children}
+        </Comment>
+      ))}
+      {(post?.counts.comments || 0) > (commentTree?.length || 0) && (
         <Button className="bg-default-50 mb-2 border-1 border-default-100 w-[200px] text-default-500">
-          {(post?.post_view.counts.comments || 0) - (commentTree?.length || 0)}
+          {(post?.counts.comments || 0) - (commentTree?.length || 0)}
           {commentTree?.length == 0 ? '' : ' more'}
-          {(post?.post_view.counts.comments || 0) - (commentTree?.length || 0) >
-          1
+          {(post?.counts.comments || 0) - (commentTree?.length || 0) > 1
             ? ' replies'
             : ' reply'}
           <svg
@@ -56,18 +73,6 @@ export function CommentsView({ comments, post }: CommentsViewArgs) {
   )
 }
 
-function contructComment(comment: CommentMapElement) {
-  return (
-    <CommentView2
-      className="my-3"
-      comment={comment.comment}
-      depth={comment.depth}
-    >
-      {comment.children}
-    </CommentView2>
-  )
-}
-
 /*
 <Card className="w-full p-4 m-4" isBlurred>
       <CardHeader className="flex gap-5 items-center">Comments</CardHeader>
@@ -79,11 +84,11 @@ function contructComment(comment: CommentMapElement) {
     </Card>
 */
 
-function getDepthFromComment(comment: Comment) {
+function getDepthFromComment(comment: BaseComment) {
   return comment.path.split('.').length
 }
 
-function getCommentParentId(comment?: Comment) {
+function getCommentParentId(comment?: BaseComment) {
   const split = comment?.path.split('.')
   split?.shift()
   return split && split.length > 1
@@ -91,7 +96,7 @@ function getCommentParentId(comment?: Comment) {
     : undefined
 }
 
-interface CommentMapElement {
+export interface CommentMapElement {
   comment: CommentView
   children: CommentMapElement[]
   depth: number
@@ -142,35 +147,12 @@ function buildCommentsTree(comments: CommentView[], parentComment: boolean) {
   return tree
 }
 
-const depthColors = [
-  'bg-red-950',
-  'bg-amber-950',
-  'bg-lime-950',
-  'bg-emerald-950',
-  'bg-cyan-950',
-  'bg-blue-950',
-  'bg-violet-950',
-  'bg-fuchsia-950',
-  'bg-rose-950',
-]
-
+/*
 interface CommentViewArgs {
   comment?: CommentView
   className?: string
   children?: CommentMapElement[]
   depth?: number
-}
-
-function cleanText(text: string) {
-  const newText = removeMastodonPings(text)
-
-  return newText
-}
-
-function removeMastodonPings(text: string) {
-  const [, newText] = /(?:\[@\S+\]\(\S+\)\s+)*([\s\S]*)/.exec(text) || []
-
-  return newText
 }
 
 function CommentView2({
@@ -236,10 +218,10 @@ function CommentView2({
             </Badge>
             <div className="flex flex-col gap-1 items-start justify-center">
               <h4 className="text-xs font-semibold leading-none text-default-600">
-                {comment?.creator.display_name ?? comment?.creator.name}
+                {comment && getPersonName(comment.creator)}
               </h4>
               <h5 className="text-xs tracking-tight text-default-400">
-                {comment?.creator.inbox_url}
+                {comment && getPersonTag(comment.creator)}
               </h5>
             </div>
             <p className="text-default-400 text-xs">{`${comment?.comment.content.slice(
@@ -302,8 +284,59 @@ function CommentView2({
                 </h5>
               </div>
             </div>
-            <div>
-              <p className="text-xs p-2 text-default-400">
+            <div className="flex text-default-400">
+              <div className="flex gap-2">
+                <CommentActionButton
+                  selected={false}
+                  color="group-hover:text-rose-500"
+                  name="Minimize"
+                >
+                  <MinusIcon />
+                </CommentActionButton>
+                <CommentActionButton
+                  selected={false}
+                  color="group-hover:text-yellow-500"
+                  name="Reply"
+                >
+                  <ArrowBackUpIcon />
+                </CommentActionButton>
+                <CommentActionButton
+                  selected={false}
+                  color="group-hover:text-green-500"
+                  name="Copy Link"
+                >
+                  <LinkIcon />
+                </CommentActionButton>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <CommentActionButton
+                      selected={false}
+                      color="group-hover:text-default-600"
+                      name="More Actions"
+                    >
+                      <MoreIcon />
+                    </CommentActionButton>
+                  </DropdownTrigger>
+                  <DropdownMenu>
+                    <DropdownSection>
+                      <DropdownItem>Message</DropdownItem>
+                      <DropdownItem>Report</DropdownItem>
+                      <DropdownItem>Block User</DropdownItem>
+                      <DropdownItem>Save</DropdownItem>
+                      <DropdownItem>View Source</DropdownItem>
+                    </DropdownSection>
+                    <DropdownSection>
+                      <DropdownItem>Remove</DropdownItem>
+                      <DropdownItem>Ban from Community</DropdownItem>
+                      <DropdownItem>Appoint as Mod</DropdownItem>
+                    </DropdownSection>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+              <div className="flex px-2">
+                <PointIcon width={12} />
+              </div>
+              <p className="text-xs p-2">
                 {comment && getCommentTime(comment)}
               </p>
             </div>
@@ -315,7 +348,7 @@ function CommentView2({
                 cleanText(comment?.comment.content || '')
               )}
             />
-            <div className="py-2" />
+            <Spacer y={2} />
             {children && children.map((child) => contructComment(child))}
             {(comment?.counts.child_count || 0) > (children?.length || 0) && (
               <Button className="bg-default-50 mb-2 border-1 border-default-100 w-[200px] text-default-500">
@@ -341,3 +374,4 @@ function CommentView2({
     </Card>
   )
 }
+*/

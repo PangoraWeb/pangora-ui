@@ -1,5 +1,5 @@
-import PostView from '@/components/PostView/post'
+import Post from '@/components/Post'
 
-export default function Post({ params }: { params: { id: number } }) {
-  return <PostView id={params.id}></PostView>
+export default async function PostPage({ params }: { params: { id: number } }) {
+  return <Post id={params.id} />
 }

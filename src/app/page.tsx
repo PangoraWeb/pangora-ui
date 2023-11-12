@@ -1,24 +1,17 @@
-import HomePage from '@/components/HomePage'
-//import SidebarSite from '@/components/SidebarSite'
-//import Tagline from '@/components/Tagline'
+import HomeFeed from '@/components/HomeFeed'
+import SidebarSite from '@/components/SidebarSite'
+import Tagline from '@/components/Tagline'
 
-export default function Home() {
-  return <HomePage />
-}
-
-/*
-<div className="w-full md:w-2/3">
+export default function HomePage() {
+  return (
+    <div className="flex">
+      <div className="w-full md:w-2/3">
         <Tagline />
+        <HomeFeed />
       </div>
       <div className="w-0 md:w-1/3">
-        <SidebarSite />
+        <SidebarSite startButtonsShown={true} />
       </div>
-*/
-
-/*
-return (
-    <div>
-      <HomePage />
     </div>
   )
-*/
+}
