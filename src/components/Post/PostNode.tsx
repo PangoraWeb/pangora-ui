@@ -9,9 +9,6 @@ import PostTitle from './PostTitle'
 import PostThumbnail from './PostThumbnail'
 import { getComments } from '@/shared/libs/Lemmy/post'
 import { CommentsView } from '../CommentsView'
-import SidebarCommunity from '../SidebarCommunity'
-import SidebarSite from '../SidebarSite'
-import SidebarUser from '../SidebarUser'
 import PostBody from './PostBody'
 import PostButtons from './PostButtons'
 
@@ -64,48 +61,41 @@ export default function PostNode({
   }
 
   return (
-    <div className="flex flex-row overflow-y-auto h-[calc(100vh-50px)]">
-      <div className="w-2/3">
-        <Card className="p-4 my-4 mx-1" isBlurred>
-          <CardHeader className="flex justify-between">
-            <div className="flex">
-              <div>
-                <PostScore post={post} />
-              </div>
-              <div className="flex flex-col items-center justify-center gap-5 mt-10">
-                <div className="flex gap-5">
-                  <PostAuthor post={post} />
-                  <PostTitle post={post} />
-                </div>
+    <div>
+      <Card className="p-4 my-4 mx-1" isBlurred>
+        <CardHeader className="flex justify-between">
+          <div className="flex">
+            <div>
+              <PostScore post={post} />
+            </div>
+            <div className="flex flex-col items-center justify-center gap-5 mt-10">
+              <div className="flex gap-5">
+                <PostAuthor post={post} />
+                <PostTitle post={post} />
               </div>
             </div>
-            <div>
-              <PostThumbnail post={post} />
-            </div>
-          </CardHeader>
-          {post.post.body && (
-            <div>
-              <hr className="border-gray-700 m-2" />
-              <CardBody>
-                <PostBody bodySourceActive={bodySourceActive} post={post} />
-              </CardBody>
-            </div>
-          )}
-        </Card>
-        <PostButtons
-          post={post}
-          toggleBodySource={toggleBodySource}
-          bodySourceActive={bodySourceActive}
-          duplicates={duplicates}
-          toggleComments={toggleComments}
-        />
-        {commentsShown && <CommentsView post={post} comments={comments} />}
-      </div>
-      <div className="w-1/3 flex flex-col py-2">
-        <SidebarUser id={post.creator.id} />
-        <SidebarCommunity slug={post.community.name} />
-        <SidebarSite />
-      </div>
+          </div>
+          <div>
+            <PostThumbnail post={post} />
+          </div>
+        </CardHeader>
+        {post.post.body && (
+          <div>
+            <hr className="border-gray-700 m-2" />
+            <CardBody>
+              <PostBody bodySourceActive={bodySourceActive} post={post} />
+            </CardBody>
+          </div>
+        )}
+      </Card>
+      <PostButtons
+        post={post}
+        toggleBodySource={toggleBodySource}
+        bodySourceActive={bodySourceActive}
+        duplicates={duplicates}
+        toggleComments={toggleComments}
+      />
+      {commentsShown && <CommentsView post={post} comments={comments} />}
     </div>
   )
 }

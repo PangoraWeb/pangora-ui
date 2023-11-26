@@ -1,12 +1,9 @@
 import { PostView } from 'lemmy-js-client'
-import {
-  Link,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@nextui-org/react'
-import { getPostTitle } from '@/shared/libs/Lemmy/post'
+import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react'
+import { getPostId, getPostTitle } from '@/shared/libs/Lemmy/post'
 import PinIcon from '@/icons/PinIcon'
+import { useEffect } from 'react'
+import Link from 'next/link'
 
 export function PostFeedPostTitle({
   post,
@@ -15,11 +12,22 @@ export function PostFeedPostTitle({
   post: PostView
   setPreview: (post: PostView) => void
 }) {
+  useEffect(() => {
+    const element = document.getElementById(`post-title-${getPostId(post)}`)
+    if (element) {
+      element.addEventListener('click', (e) => {
+        e.preventDefault()
+        setPreview(post)
+      })
+    }
+  }, [])
+
   return (
     <div className="flex gap-1 items-center">
       <Link
-        onClick={() => setPreview(post)}
-        className={`text-transparent bg-clip-text bg-gradient-to-r hover:cursor-pointer ${
+        id={`post-title-${getPostId(post)}`}
+        href={`/post/${post.post.id}`}
+        className={`text-transparent bg-clip-text bg-gradient-to-r hover:cursor-pointer hover:opacity-80 transition-opacity ${
           post.post.featured_community
             ? 'from-green-400 to-teal-500'
             : 'from-default-700 to-default-600'

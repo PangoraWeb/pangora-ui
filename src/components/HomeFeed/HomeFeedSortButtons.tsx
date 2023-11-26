@@ -18,7 +18,8 @@ import HomeFeedDropdownButton from './HomeFeedDropdownButton'
 import { HomeFeedDropdownItemTypeSort } from '@/types/HomeFeedDropdownItemType'
 import HourglassIcon from '@/icons/HourglassIcon'
 import SparklesIcon from '@/icons/SparklesIcon'
-import { SortType } from 'lemmy-js-client'
+import { ListingType, SortType } from 'lemmy-js-client'
+import { usePathname, useRouter } from 'next/navigation'
 
 const sorts: HomeFeedDropdownItemTypeSort[] = [
   {
@@ -146,16 +147,18 @@ const sorts: HomeFeedDropdownItemTypeSort[] = [
 ]
 
 export default function HomeFeedSortButtons({
-  selectedSort,
-  setSelectedSort,
+  listingType,
+  sortType,
 }: {
-  selectedSort: SortType
-  setSelectedSort: (sort: SortType) => void
+  listingType?: ListingType
+  sortType?: SortType
 }) {
   const [dropdownSort, setDropdownSort] =
     useState<HomeFeedDropdownItemTypeSort>(
       sorts.filter((sort) => !sort.separateButton)[0]
     )
+  const router = useRouter()
+  const pathname = usePathname()
 
   return (
     <ButtonGroup>
@@ -166,19 +169,19 @@ export default function HomeFeedSortButtons({
             <HomeFeedDropdownButton
               key={sort.key}
               item={sort}
-              selected={selectedSort === sort.key}
-              onClick={() => {
-                setSelectedSort(sort.key)
-              }}
+              href={`${pathname}?sort=${sort.key}${
+                listingType ? `&scope=${listingType}` : ''
+              }`}
+              selected={sort.key === sortType}
             />
           )
         })}
       <HomeFeedDropdownButton
         item={dropdownSort}
-        selected={selectedSort === dropdownSort.key}
-        onClick={() => {
-          setSelectedSort(dropdownSort.key)
-        }}
+        href={`${pathname}?sort=${dropdownSort.key}${
+          listingType ? `&scope=${listingType}` : ''
+        }`}
+        selected={dropdownSort.key === sortType}
       />
       <Dropdown>
         <DropdownTrigger>
@@ -191,7 +194,12 @@ export default function HomeFeedSortButtons({
             const sort = sorts.find((sort) => sort.key === key.toString())
             if (sort) {
               setDropdownSort(sort)
-              setSelectedSort(sort.key)
+              //setSelectedSort(sort.key)
+              router.push(
+                `${pathname}?sort=${sort.key}${
+                  listingType ? `&scope=${listingType}` : ''
+                }`
+              )
             }
           }}
         >

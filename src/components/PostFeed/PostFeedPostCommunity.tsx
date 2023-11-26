@@ -1,11 +1,14 @@
 import { PostView } from 'lemmy-js-client'
-import { Avatar, Link } from '@nextui-org/react'
 import {
   getCommunityIcon,
   getCommunityName,
+  getCommunityPrimaryColor,
+  getCommunitySecondaryColor,
   getRelativeCommunityLink,
 } from '@/shared/libs/Lemmy/community'
 import { getRelativePostLink } from '@/shared/libs/Lemmy/post'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export function PostFeedPostCommunity({
   post,
@@ -21,14 +24,23 @@ export function PostFeedPostCommunity({
           ? getRelativePostLink(post)
           : getRelativeCommunityLink(post.community)
       }
-      className="gap-1 flex items-center text-xs"
+      className="gap-1 flex items-center text-xs hover:opacity-80 transition-opacity"
     >
-      <Avatar
+      <Image
         src={getCommunityIcon(post.community)}
         alt="alt"
         className="rounded-full max-h-[14px] max-w-[14px] bg-transparent"
+        width="14"
+        height="14"
       />
-      <p className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">
+      <p
+        className={`text-transparent bg-clip-text`}
+        style={{
+          backgroundImage: `linear-gradient(90deg, ${getCommunityPrimaryColor(
+            post.community
+          )}, ${getCommunitySecondaryColor(post.community)})`,
+        }}
+      >
         {getCommunityName(post.community)}
       </p>
     </Link>

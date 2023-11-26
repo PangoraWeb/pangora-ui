@@ -39,16 +39,14 @@ export default function SidebarCommunity({
     <div>
       {communities.map((community) => (
         <div
-          className="m-2 mx-4 flex flex-col gap-1"
+          className="flex flex-col gap-1"
           key={getCommunityId(community.community_view)}
         >
           <SidebarCommunityBanner
             community={community}
             onClick={() => toggleButtons()}
           />
-          {showButtons && community && (
-            <SidebarCommunityButtons community={community} />
-          )}
+          {showButtons && community && <SidebarCommunityButtons />}
         </div>
       ))}
     </div>

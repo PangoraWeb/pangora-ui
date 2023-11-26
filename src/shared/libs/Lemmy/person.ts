@@ -131,21 +131,25 @@ export function getRelativePersonLink(
 
 export function getPersonAvatar(
   person: Person | PersonView | CommunityModeratorView
-): string | undefined {
+): string {
   switch (getPersonObjectType(person)) {
     case 'PersonView': {
       const typedPerson = person as PersonView
-      return typedPerson.person.avatar
+      return typedPerson.person.avatar || getDefaultPersonAvatar()
     }
     case 'Person': {
       const typedPerson = person as Person
-      return typedPerson.avatar
+      return typedPerson.avatar || getDefaultPersonAvatar()
     }
     case 'CommunityModeratorView': {
       const typedPerson = person as CommunityModeratorView
-      return typedPerson.moderator.avatar
+      return typedPerson.moderator.avatar || getDefaultPersonAvatar()
     }
   }
+}
+
+export function getDefaultPersonAvatar(): string {
+  return '/massiveMultiplayer.png'
 }
 
 export function getPersonLocal(

@@ -9,6 +9,8 @@ import { PostView } from 'lemmy-js-client'
 import ShuffleIcon from '@/icons/ShuffleIcon'
 import { PostFeedPostCommunity } from './PostFeedPostCommunity'
 import MinusIcon from '@/icons/MinusIcon'
+import { useEffect } from 'react'
+import { getPostId } from '@/shared/libs/Lemmy/post'
 
 export function PostFeedPostButtons({
   post,
@@ -21,6 +23,18 @@ export function PostFeedPostButtons({
   toggleCollapsed: () => void
   setPreview: (post: PostView) => void
 }) {
+  useEffect(() => {
+    const element = document.getElementById(
+      `post-comments-button-${getPostId(post)}`
+    )
+    if (element) {
+      element.addEventListener('click', (e) => {
+        e.preventDefault()
+        setPreview(post)
+      })
+    }
+  }, [])
+
   return (
     <div className="flex items-center gap-2">
       <Link
@@ -30,6 +44,7 @@ export function PostFeedPostButtons({
         <MinusIcon width={12} />
       </Link>
       <Link
+        id={`post-comments-button-${getPostId(post)}`}
         className="gap-1 hover:cursor-pointer text-default-400 hover:cursor-pointer"
         onClick={() => setPreview(post)}
       >

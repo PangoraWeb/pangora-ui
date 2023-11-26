@@ -1,64 +1,38 @@
 import { EditSite, GetSiteResponse, PersonView, Tagline } from 'lemmy-js-client'
 import { getRandomElement } from '../Random'
 import { client } from '.'
+import { cache } from 'react'
 
-// TODO: Move this to the API and being set by admins
-const builtInSiteData = [
-  {
-    name: 'programming.dev',
-    disc: 'P.D',
-    color: '#000099',
-  },
-  {
-    name: 'lemmy.world',
-    disc: 'WLD',
-    color: '#009900',
-  },
-  {
-    name: 'beehaw.org',
-    disc: 'BEE',
-    color: '#999900',
-  },
-  {
-    name: 'lemmy.ml',
-    disc: 'ML',
-    color: '#990099',
-  },
-  {
-    name: 'sopuli.xyz',
-    disc: 'XYZ',
-    color: '#999999',
-  },
-  {
-    name: 'lemmy.zip',
-    disc: 'ZIP',
-    color: '#666666',
-  },
-]
+export const revalidate = 3600
 
 // --- API Functions -----------------------------------------------------------
 
-export async function getSite(): Promise<GetSiteResponse> {
+export const getSite = cache(async () => {
+  return client.getSite()
+})
+
+export const editSite = cache(async (form: EditSite) => {
+  return client.editSite(form)
+})
+
+export const getFederatedSites = cache(async () => {
+  return client.getFederatedInstances()
+})
+
+/*export async function getSite(): Promise<GetSiteResponse> {
   return client.getSite()
 }
 
 export async function editSite(form: EditSite) {
   client.editSite(form)
-}
+}*/
 
 // --- Object Functions --------------------------------------------------------
 
-export function getSiteDisc(name: string) {
-  console.log(name)
-  return builtInSiteData.find((e) => e.name === name)?.disc || '???'
-}
-
-export function getSiteColor(name: string) {
-  console.log(name)
-  return builtInSiteData.find((e) => e.name === name)?.color || '???'
-}
-
-export function getRandomSiteTagline(site: GetSiteResponse): Tagline {
+export function getRandomSiteTagline(
+  site: GetSiteResponse
+): Tagline | undefined {
+  if (!site.taglines) return
   return getRandomElement(site.taglines)
 }
 
@@ -133,6 +107,10 @@ export function getSiteCaptchaEnabled(site: GetSiteResponse): boolean {
 // TODO: Add default site icon
 export function getSiteIcon(site: GetSiteResponse): string {
   return site.site_view.site.icon || ''
+}
+
+export function getSiteBanner(site: GetSiteResponse): string {
+  return site.site_view.site.banner || ''
 }
 
 export function getSiteCommunityAmount(site: GetSiteResponse): number {

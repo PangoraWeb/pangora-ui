@@ -1,5 +1,5 @@
 import DonationPage from '@/components/DonationPage'
 
-export default function Donate() {
+export default function DonatePage() {
   return <DonationPage />
 }

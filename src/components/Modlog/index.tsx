@@ -1,6 +1,5 @@
 'use client'
 
-import { baseName, client } from '@/shared/libs/Lemmy'
 import {
   getCommunityIcon,
   getCommunityLink,
@@ -15,7 +14,6 @@ import {
   getPersonName,
   getPersonTag,
 } from '@/shared/libs/Lemmy/person'
-import { getSiteColor, getSiteDisc } from '@/shared/libs/Lemmy/site'
 import { mdToHtml } from '@/shared/libs/Markdown'
 import { getRelativeTimeText } from '@/shared/libs/Time'
 import {
@@ -108,7 +106,7 @@ export default function Modlog() {
       page: currentPage,
     })
 
-    const federatedInstances = await client.getFederatedInstances()
+    //const federatedInstances = await client.getFederatedInstances()
 
     let localEntries: ModlogEntry[] = []
 
@@ -124,19 +122,9 @@ export default function Modlog() {
           } as ModlogEntry
 
           if (e.moderator) {
-            const site = federatedInstances?.federated_instances?.linked.find(
+            /*const site = federatedInstances?.federated_instances?.linked.find(
               (instance) => instance.id === e.moderator?.instance_id
-            )
-            const disc = site
-              ? getSiteDisc(site.domain)
-              : e.moderator.instance_id === 1
-              ? getSiteDisc(baseName)
-              : '???'
-            const color = site
-              ? getSiteColor(site.domain)
-              : e.moderator.instance_id === 1
-              ? getSiteColor(baseName)
-              : '#dadada'
+            )*/
 
             newEntry.moderator = {
               name: getPersonName(e.moderator),
@@ -145,8 +133,8 @@ export default function Modlog() {
               avatar: getPersonAvatar(e.moderator),
               local: getPersonLocal(e.moderator),
               site: {
-                disc: disc,
-                color: color,
+                disc: 'P.D',
+                color: '#dadada',
               },
             }
           }
@@ -186,19 +174,9 @@ export default function Modlog() {
           } as ModlogEntry
 
           if (e.moderator) {
-            const site = federatedInstances?.federated_instances?.linked.find(
+            /*const site = federatedInstances?.federated_instances?.linked.find(
               (instance) => instance.id === e.moderator?.instance_id
-            )
-            const disc = site
-              ? getSiteDisc(site.domain)
-              : e.moderator.instance_id === 1
-              ? getSiteDisc(baseName)
-              : '???'
-            const color = site
-              ? getSiteColor(site.domain)
-              : e.moderator.instance_id === 1
-              ? getSiteColor(baseName)
-              : '#dadada'
+            )*/
 
             newEntry.moderator = {
               name: getPersonName(e.moderator),
@@ -207,8 +185,8 @@ export default function Modlog() {
               avatar: getPersonAvatar(e.moderator),
               local: getPersonLocal(e.moderator),
               site: {
-                disc: disc,
-                color: color,
+                disc: 'P.D',
+                color: '#dadada',
               },
             }
           }

@@ -1,15 +1,38 @@
-'use client'
+'use server'
 
-import { useEffect, useState } from 'react'
-import HomeFeedScopeButtons from './HomeFeedScopeButtons'
-import HomeFeedSortButtons from './HomeFeedSortButtons'
-import { PostFeed } from '../PostFeed'
-import { ListingType, PostView, SortType } from 'lemmy-js-client'
+import { ListingType, SortType } from 'lemmy-js-client'
 import { getPosts } from '@/shared/libs/Lemmy/post'
-import { Spinner } from '@nextui-org/react'
+import HomeFeedNode from './HomeFeedNode'
 
-export default function HomeFeed() {
-  const [posts, setPosts] = useState<PostView[]>([])
+export default async function HomeFeed({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
+  const sortType = ((searchParams ? searchParams['sort'] : null) ??
+    'Active') as SortType
+  const listingType = ((searchParams ? searchParams['scope'] : null) ??
+    'Local') as ListingType
+
+  const postsResponse = await getPosts({
+    type_: listingType,
+    sort: sortType,
+    limit: 50,
+    page: 1,
+  })
+
+  const startingPosts = postsResponse.posts
+
+  return (
+    <HomeFeedNode
+      startingPosts={startingPosts}
+      sortType={sortType}
+      listingType={listingType}
+    />
+  )
+}
+
+/*const [posts, setPosts] = useState<PostView[]>([])
   const [nextPage, setNextPage] = useState<number>(1)
   const [isLoading, setIsLoading] = useState(false)
   const [atBottom, setAtBottom] = useState(false)
@@ -78,12 +101,14 @@ export default function HomeFeed() {
     <div>
       <div className="flex justify-between">
         <HomeFeedScopeButtons
+          sortType={selectedSort}
           selectedScope={selectedScope}
           setSelectedScope={(scope: ListingType) => {
             setSelectedScope(scope)
           }}
         />
         <HomeFeedSortButtons
+          listingType={selectedScope}
           selectedSort={selectedSort}
           setSelectedSort={(sort: SortType) => {
             setSelectedSort(sort)
@@ -93,5 +118,4 @@ export default function HomeFeed() {
       <PostFeed posts={posts} />
       {isLoading ? <Spinner /> : ''}
     </div>
-  )
-}
+  )*/

@@ -1,17 +1,20 @@
 import { HomeFeedDropdownItemType } from '@/types/HomeFeedDropdownItemType'
 import { Button } from '@nextui-org/button'
+import Link from 'next/link'
 
 export default function HomeFeedDropdownButton({
   item,
+  href,
   selected,
-  onClick,
 }: {
   item: HomeFeedDropdownItemType
+  href: string
   selected: boolean
-  onClick: () => void
 }) {
   return (
     <Button
+      suppressHydrationWarning
+      as={Link}
       key={item.key}
       startContent={
         <div
@@ -24,8 +27,8 @@ export default function HomeFeedDropdownButton({
       }
       size="sm"
       variant="light"
-      className="group hover:transition-all hover:scale-110 scale-100 duration-300 ease-in-out delay-75 hover:-translate-y-[0.25em]"
-      onClick={() => onClick()}
+      className="overflow-visible group hover:transition-all hover:scale-110 scale-100 duration-300 ease-in-out delay-75 hover:-translate-y-[0.25em]"
+      href={href}
     >
       <div
         className={`flex items-center h-full transition-all duration-300 delay-75 ease-in-out border-b-2 border-opacity-0 ${

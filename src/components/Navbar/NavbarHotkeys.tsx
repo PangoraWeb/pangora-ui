@@ -44,6 +44,8 @@ export default function NavbarHotkeys() {
 
     if (theme === 'dark') {
       setTheme('light')
+    } else if (theme === 'light') {
+      setTheme('system')
     } else {
       setTheme('dark')
     }

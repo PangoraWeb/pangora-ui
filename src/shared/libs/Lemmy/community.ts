@@ -10,6 +10,17 @@ import { client } from '.'
 import { differenceInDays } from 'date-fns'
 import { getAuth } from '../Users'
 import { cleanText } from '../Text'
+import { getRelativeTimeText } from '../Time'
+
+const communityColorMap = new Map()
+communityColorMap.set('godot', ['rgb(0, 204, 255)', 'rgb(0, 0, 255)'])
+communityColorMap.set('_', ['rgb(0, 204, 255)', 'rgb(153, 51, 255)'])
+communityColorMap.set('git', ['rgb(255, 102, 0)', 'rgb(228, 47, 27)'])
+communityColorMap.set('pangora', ['rgb(34,195,97)', 'rgb(176,195,34)'])
+communityColorMap.set('programmer_humor', [
+  'rgb(208,207,44)',
+  'rgb(44,175,208)',
+])
 
 export async function getCommunities(
   form?: ListCommunities
@@ -51,13 +62,27 @@ export function getCommunityInstance(
   }
 }
 
-export function getCommunityIcon(
-  community: CommunityView | Community
-): string | undefined {
+export function getCommunityIcon(community: CommunityView | Community): string {
   if ((<CommunityView>community).community) {
-    return (community as CommunityView).community.icon
+    return (
+      (community as CommunityView).community.icon || getDefaultCommunityIcon()
+    )
   } else {
-    return (community as Community).icon
+    return (community as Community).icon || getDefaultCommunityIcon()
+  }
+}
+
+export function getDefaultCommunityIcon(): string {
+  return '/massiveMultiplayer.png'
+}
+
+export function getCommunityBanner(
+  community: CommunityView | Community
+): string {
+  if ((<CommunityView>community).community) {
+    return (community as CommunityView).community.banner || ''
+  } else {
+    return (community as Community).banner || ''
   }
 }
 
@@ -80,6 +105,41 @@ export function getCommunityLink(community: CommunityView | Community): string {
 }
 
 export function getRelativeCommunityLink(
+  community: CommunityView | Community,
+  addExlamation?: boolean
+): string {
+  if ((<CommunityView>community).community) {
+    if ((<CommunityView>community).community.local) {
+      const [, link] =
+        /.*:\/\/.*(\/c\/.*)/.exec(
+          (community as CommunityView).community.actor_id
+        ) || []
+
+      return addExlamation ? `!${link}` : link
+    } else {
+      const [, instance, link] =
+        /.*:\/\/(.*)(\/c\/.*)/.exec(
+          (community as CommunityView).community.actor_id
+        ) || []
+
+      return addExlamation ? `!${link}@${instance}` : `${link}@${instance}`
+    }
+  } else {
+    if ((<Community>community).local) {
+      const [, link] =
+        /.*:\/\/.*(\/c\/.*)/.exec((community as Community).actor_id) || []
+
+      return addExlamation ? `!${link}` : link
+    } else {
+      const [, instance, link] =
+        /.*:\/\/(.*)(\/c\/.*)/.exec((community as Community).actor_id) || []
+
+      return addExlamation ? `!${link}@${instance}` : `${link}@${instance}`
+    }
+  }
+}
+
+export function getCommunityTag(
   community: CommunityView | Community,
   addExlamation?: boolean
 ): string {
@@ -183,6 +243,26 @@ export function getCommunityOuterNew(community: CommunityView): boolean {
   const published = community.community.published
 
   return differenceInDays(Date.now(), new Date(published)) < 31
+}
+
+export function getCommunityTime(community: CommunityView): string {
+  return getRelativeTimeText(community.community.published)
+}
+
+export function getCommunityPrimaryColor(community: Community): string {
+  if (communityColorMap.has(community.name)) {
+    return communityColorMap.get(community.name)[0]
+  }
+
+  return communityColorMap.get('_')[0]
+}
+
+export function getCommunitySecondaryColor(community: Community): string {
+  if (communityColorMap.has(community.name)) {
+    return communityColorMap.get(community.name)[1]
+  }
+
+  return communityColorMap.get('_')[1]
 }
 
 export function isCommunityIn(

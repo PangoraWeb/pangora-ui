@@ -30,17 +30,20 @@ export function SidebarSiteButtons({ site }: { site: GetSiteResponse }) {
 
   return (
     <div className="flex justify-center items-center flex-col gap-1">
-      <ButtonGroup variant="solid">
+      <ButtonGroup
+        variant="solid"
+        className="border-neutral-700 border-1 rounded-xl border-opacity-50"
+      >
         <Button
           isIconOnly
-          className="text-default-400 hover:text-green-500 bg-neutral-100 dark:bg-neutral-900"
+          className="text-default-400 hover:text-green-500 bg-white/50 dark:bg-neutral-800/50"
           onClick={() => toggleDescription()}
         >
           <DocumentIcon />
         </Button>
         <Button
           isIconOnly
-          className="text-default-400 hover:text-amber-500 bg-neutral-100 dark:bg-neutral-900 hover:opacity-100"
+          className="text-default-400 hover:text-amber-500 bg-white/50 dark:bg-neutral-800/50"
           as={Link}
           href="/modlog"
         >
@@ -48,7 +51,7 @@ export function SidebarSiteButtons({ site }: { site: GetSiteResponse }) {
         </Button>
         <Button
           isIconOnly
-          className="text-default-400 hover:text-yellow-500 bg-neutral-100 dark:bg-neutral-900 hover:opacity-100"
+          className="text-default-400 hover:text-yellow-500 bg-white/50 dark:bg-neutral-800/50"
           as={Link}
           href="/legal"
         >
@@ -56,7 +59,7 @@ export function SidebarSiteButtons({ site }: { site: GetSiteResponse }) {
         </Button>
         <Button
           isIconOnly
-          className="text-default-400 hover:text-teal-500 bg-neutral-100 dark:bg-neutral-900 hover:opacity-100"
+          className="text-default-400 hover:text-teal-500 bg-white/50 dark:bg-neutral-800/50"
           as={Link}
           href="/instances"
         >
@@ -64,21 +67,21 @@ export function SidebarSiteButtons({ site }: { site: GetSiteResponse }) {
         </Button>
         <Button
           isIconOnly
-          className="text-default-400 hover:text-emerald-500 bg-neutral-100 dark:bg-neutral-900"
+          className="text-default-400 hover:text-emerald-500 bg-white/50 dark:bg-neutral-800/50"
           onClick={() => toggleStats()}
         >
           <BarIcon />
         </Button>
         <Button
           isIconOnly
-          className="text-default-400 hover:text-purple-500 bg-neutral-100 dark:bg-neutral-900 hover:opacity-100"
+          className="text-default-400 hover:text-purple-500 bg-white/50 dark:bg-neutral-800/50"
           onClick={() => toggleAdmins()}
         >
           <UserIcon />
         </Button>
         <Button
           isIconOnly
-          className="text-default-400 hover:text-red-500 bg-neutral-100 dark:bg-neutral-900 hover:opacity-100"
+          className="text-default-400 hover:text-red-500 bg-white/50 dark:bg-neutral-800/50"
           as={Link}
           href="/donate"
         >

@@ -1,10 +1,11 @@
 import { Person } from 'lemmy-js-client'
-import { Avatar, Link } from '@nextui-org/react'
+import { Link } from '@nextui-org/react'
 import {
   getPersonAvatar,
   getPersonName,
   getRelativePersonLink,
 } from '@/shared/libs/Lemmy/person'
+import Image from 'next/image'
 
 export function PostFeedPostAuthor({ author }: { author: Person }) {
   return (
@@ -12,10 +13,12 @@ export function PostFeedPostAuthor({ author }: { author: Person }) {
       href={getRelativePersonLink(author)}
       className="gap-1 flex items-center text-xs"
     >
-      <Avatar
+      <Image
         src={getPersonAvatar(author)}
         alt="alt"
         className="rounded-full max-h-[14px] max-w-[14px] bg-transparent"
+        width={14}
+        height={14}
       />
       <p className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-500">
         {getPersonName(author)}

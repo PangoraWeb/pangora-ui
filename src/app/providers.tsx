@@ -9,8 +9,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <NextUIProvider>
       <NextThemesProvider
         attribute="class"
-        defaultTheme="dark"
-        themes={['light', 'dark']}
+        themes={['system', 'light', 'dark']}
       >
         <Toaster theme="dark" richColors />
         {children}

@@ -1,8 +1,9 @@
 import { PostView } from 'lemmy-js-client'
-import { Image, Link } from '@nextui-org/react'
 import MessageIcon from '@/icons/MessageIcon'
 import { getPostURL, getRelativePostLink } from '@/shared/libs/Lemmy/post'
 import LinkIcon from '@/icons/LinkIcon'
+import Link from 'next/link'
+import Image from 'next/image'
 
 export function PostFeedPostThumbnail({ post }: { post: PostView }) {
   return (

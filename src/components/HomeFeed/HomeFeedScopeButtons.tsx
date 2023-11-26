@@ -6,7 +6,7 @@ import CircleIcon from '@/icons/CircleIcon'
 import StarIcon from '@/icons/StarIcon'
 import HomeFeedDropdownButton from './HomeFeedDropdownButton'
 import { HomeFeedDropdownItemTypeScope } from '@/types/HomeFeedDropdownItemType'
-import { ListingType } from 'lemmy-js-client'
+import { ListingType, SortType } from 'lemmy-js-client'
 
 const scopes: HomeFeedDropdownItemTypeScope[] = [
   {
@@ -40,11 +40,11 @@ const scopes: HomeFeedDropdownItemTypeScope[] = [
 ]
 
 export default function HomeFeedScopeButtons({
-  selectedScope,
-  setSelectedScope,
+  sortType,
+  listingType,
 }: {
-  selectedScope: ListingType
-  setSelectedScope: (scope: ListingType) => void
+  sortType: SortType
+  listingType: ListingType
 }) {
   return (
     <ButtonGroup>
@@ -54,8 +54,8 @@ export default function HomeFeedScopeButtons({
             <HomeFeedDropdownButton
               key={scope.key}
               item={scope}
-              onClick={() => setSelectedScope(scope.key)}
-              selected={selectedScope === scope.key}
+              href={`/?sort=${sortType}&scope=${scope.key}`}
+              selected={scope.key === listingType}
             />
           )
         })

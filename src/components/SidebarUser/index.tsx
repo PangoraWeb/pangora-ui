@@ -31,7 +31,7 @@ export default function SidebarUser({
   return (
     <div>
       {user && (
-        <div className="m-2 mx-4 flex flex-col gap-1">
+        <div className="flex flex-col gap-1">
           <SidebarUserBanner user={user} onClick={() => toggleButtons()} />
           {showButtons && <SidebarUserButtons />}
         </div>

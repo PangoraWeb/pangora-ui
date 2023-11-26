@@ -4,7 +4,7 @@ import { getPostSource, getPostURL } from '@/shared/libs/Lemmy/post'
 
 export function PostFeedPostSource({ post }: { post: PostView }) {
   return (
-    <Link href={getPostURL(post)} className="text-xs text-blue-700">
+    <Link href={getPostURL(post)} className="text-xs text-blue-600">
       <p>{getPostSource(post)}</p>
     </Link>
   )

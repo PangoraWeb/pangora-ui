@@ -1,5 +1,5 @@
-import { Image, NavbarBrand as NavbarBrandBase } from '@nextui-org/react'
-import NextImage from 'next/image'
+import { NavbarBrand as NavbarBrandBase } from '@nextui-org/react'
+import Image from 'next/image'
 import NavbarLink from './NavbarLink'
 
 export default function NavbarBrand({
@@ -20,14 +20,11 @@ export default function NavbarBrand({
         }}
       >
         <Image
-          as={NextImage}
           src={icon}
           alt="site icon"
           width="48"
           height="48"
           className="mr-2 rounded-md min-w-[48px] min-h-[48px]"
-          isBlurred
-          disableSkeleton
         />
         <h1>{name}</h1>
       </NavbarLink>

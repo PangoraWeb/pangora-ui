@@ -1,56 +1,70 @@
 'use client'
 
-import { Avatar, Card, Image } from '@nextui-org/react'
-import { GetCommunityResponse, PostView } from 'lemmy-js-client'
+import { Card } from '@nextui-org/react'
+import { GetCommunityResponse, PostView, SortType } from 'lemmy-js-client'
 import { PostFeed } from '../PostFeed'
 import {
+  getCommunityBanner,
+  getCommunityIcon,
   getCommunityName,
-  getRelativeCommunityLink,
+  getCommunityTag,
+  getDefaultCommunityIcon,
 } from '@/shared/libs/Lemmy/community'
+import Image from 'next/image'
+import HomeFeedSortButtons from '../HomeFeed/HomeFeedSortButtons'
 
 export default function CommunityNode({
   communities,
   posts,
+  sortType,
 }: {
   communities: GetCommunityResponse[]
   posts: PostView[]
+  sortType: SortType
 }) {
   return (
     <div className="flex mt-4">
       <div className="w-full">
         <Card className="bg-opacity-0">
           <div className="w-full h-[200px] overflow-hidden absolute">
-            <Image
-              src={communities[0].community_view.community.banner}
-              width={600}
-              height={600}
-              className="w-[100%] min-w-[100%] max-w-[100%]"
-              classNames={{ wrapper: 'w-[100%] min-w-[100%] max-w-[100%]' }}
-            />
+            {communities.length === 1 && (
+              <Image
+                src={getCommunityBanner(communities[0].community_view)}
+                width={600}
+                height={600}
+                className="w-[100%] min-w-[100%] max-w-[100%] z-0 relative"
+                alt="test"
+              />
+            )}
           </div>
           <div className="mt-[136px] ml-[32px]">
-            <Avatar
-              src={communities[0]?.community_view.community.icon}
-              className="rounded-full w-[128px] h-[128px]"
-              size="lg"
+            <Image
+              src={
+                communities.length > 1
+                  ? getDefaultCommunityIcon()
+                  : getCommunityIcon(communities[0].community_view)
+              }
+              className="rounded-full w-[128px] h-[128px] z-10 relative"
+              alt="test"
+              width={128}
+              height={128}
             />
           </div>
           <div className="p-5">
             <div className="mb-6">
               <p className="text-2xl">
-                {communities
-                  .map((community) =>
-                    getCommunityName(community.community_view)
-                  )
-                  .join(' + ')}
+                {communities.length > 1
+                  ? 'Multiple Communities'
+                  : getCommunityName(communities[0].community_view)}
               </p>
               <p className="text-md">
                 {communities
-                  .map((community) =>
-                    getRelativeCommunityLink(community.community_view)
-                  )
+                  .map((community) => getCommunityTag(community.community_view))
                   .join(', ')}
               </p>
+            </div>
+            <div className="flex justify-between">
+              <HomeFeedSortButtons sortType={sortType} />
             </div>
             <PostFeed posts={posts} />
           </div>

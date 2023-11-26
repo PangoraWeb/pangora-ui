@@ -1,15 +1,41 @@
-'use server'
+'use client'
 
-import { Navbar as NavBase, NavbarContent } from '@nextui-org/navbar'
-import NavbarHotkeys from './NavbarHotkeys'
-import NavbarBrand from './NavbarBrand'
+import { Navbar as NavBase, NavbarContent } from '@nextui-org/react'
+import { GetSiteResponse } from 'lemmy-js-client'
 import { getSite, getSiteIcon, getSiteName } from '@/shared/libs/Lemmy/site'
 import NavbarLink from './NavbarLink'
+import NavbarHotkeys from './NavbarHotkeys'
+import NavbarBrand from './NavbarBrand'
+import NavbarButton from './NavbarButton'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 import HeartIcon from '@/icons/HeartIcon'
-import NavbarThemeSwitcher from './NavbarThemeSwitcher'
 
-export default async function Navbar() {
-  const site = await getSite()
+export default function NavbarNode() {
+  const { theme, setTheme } = useTheme()
+  const [site, setSite] = useState<GetSiteResponse>()
+
+  useEffect(() => {
+    async function fetch() {
+      setSite(await getSite())
+    }
+    fetch()
+  }, [])
+
+  /*useEffect(() => {
+    console.log(loggedIn())
+    console.log(self)
+
+    if (loggedIn() && !self) {
+      fetch()
+    }
+
+    async function fetch() {
+      setSelf(await getUser())
+      console.log(await getUser())
+    }
+  }, [pathname])*/
+
   return (
     <NavBase
       isBordered
@@ -19,7 +45,10 @@ export default async function Navbar() {
       }}
     >
       <NavbarHotkeys />
-      <NavbarBrand name={getSiteName(site)} icon={getSiteIcon(site)} />
+      <NavbarBrand
+        name={site ? getSiteName(site) : 'Loading...'}
+        icon={site ? getSiteIcon(site) : ''}
+      />
 
       {/* -- Items on left side of navbar -- */}
       <NavbarContent className="hidden sm:flex gap-4" justify="start">
@@ -78,7 +107,32 @@ export default async function Navbar() {
       {/* -- Items on right side of navbar -- */}
       <NavbarContent className="hidden sm:flex gap-4" justify="end">
         {/* Theme Switcher */}
-        <NavbarThemeSwitcher />
+        <NavbarButton
+          isIconOnly
+          onClick={() => {
+            if (theme === 'dark') {
+              setTheme('light')
+            } else if (theme === 'light') {
+              setTheme('system')
+            } else {
+              setTheme('dark')
+            }
+          }}
+          tooltip={{
+            title: 'Theme',
+            description: 'Toggle the site between light and dark themes.',
+            key: 'Q',
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="-2 -2 24 24"
+            width="22"
+            fill="currentColor"
+          >
+            <path d="M10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-15a1 1 0 0 1 1 1v2a1 1 0 0 1-2 0V1a1 1 0 0 1 1-1zm0 16a1 1 0 0 1 1 1v2a1 1 0 0 1-2 0v-2a1 1 0 0 1 1-1zM1 9h2a1 1 0 1 1 0 2H1a1 1 0 0 1 0-2zm16 0h2a1 1 0 0 1 0 2h-2a1 1 0 0 1 0-2zm.071-6.071a1 1 0 0 1 0 1.414l-1.414 1.414a1 1 0 1 1-1.414-1.414l1.414-1.414a1 1 0 0 1 1.414 0zM5.757 14.243a1 1 0 0 1 0 1.414L4.343 17.07a1 1 0 1 1-1.414-1.414l1.414-1.414a1 1 0 0 1 1.414 0zM4.343 2.929l1.414 1.414a1 1 0 0 1-1.414 1.414L2.93 4.343A1 1 0 0 1 4.343 2.93zm11.314 11.314l1.414 1.414a1 1 0 0 1-1.414 1.414l-1.414-1.414a1 1 0 1 1 1.414-1.414z"></path>
+          </svg>
+        </NavbarButton>
       </NavbarContent>
     </NavBase>
   )
