@@ -1,7 +1,7 @@
 'use client'
 
 import { GetCommunityResponse } from 'lemmy-js-client'
-import { getCommunity } from '@/shared/libs/Lemmy/community'
+import { getCommunity, getCommunityId } from '@/shared/libs/Lemmy/community'
 import { useEffect, useState } from 'react'
 import { SidebarCommunityBanner } from './SidebarCommunityBanner'
 import { SidebarCommunityButtons } from './SidebarCommunityButtons'
@@ -13,7 +13,7 @@ export default function SidebarCommunity({
   slug: string
   startButtonsShown?: boolean
 }) {
-  const [community, setCommunity] = useState<GetCommunityResponse>()
+  const [communities, setCommunities] = useState<GetCommunityResponse[]>([])
   const [showButtons, setShowButtons] = useState(startButtonsShown)
 
   function toggleButtons() {
@@ -24,21 +24,33 @@ export default function SidebarCommunity({
     fetch()
 
     async function fetch() {
-      setCommunity(await getCommunity({ name: slug }))
+      const fixedSlug = decodeURIComponent(slug)
+      const splitSlugs = fixedSlug.split('+')
+
+      const communities = await Promise.all(
+        splitSlugs.map((slug) => getCommunity({ name: slug }))
+      )
+
+      setCommunities(communities)
     }
   }, [])
 
   return (
     <div>
-      {community && (
-        <div className="m-2 mx-4 flex flex-col gap-1">
+      {communities.map((community) => (
+        <div
+          className="m-2 mx-4 flex flex-col gap-1"
+          key={getCommunityId(community.community_view)}
+        >
           <SidebarCommunityBanner
             community={community}
             onClick={() => toggleButtons()}
           />
-          {showButtons && <SidebarCommunityButtons />}
+          {showButtons && community && (
+            <SidebarCommunityButtons community={community} />
+          )}
         </div>
-      )}
+      ))}
     </div>
   )
 }

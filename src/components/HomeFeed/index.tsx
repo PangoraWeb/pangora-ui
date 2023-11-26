@@ -6,7 +6,7 @@ import HomeFeedSortButtons from './HomeFeedSortButtons'
 import { PostFeed } from '../PostFeed'
 import { ListingType, PostView, SortType } from 'lemmy-js-client'
 import { getPosts } from '@/shared/libs/Lemmy/post'
-import { Button, Spinner } from '@nextui-org/react'
+import { Spinner } from '@nextui-org/react'
 
 export default function HomeFeed() {
   const [posts, setPosts] = useState<PostView[]>([])
@@ -16,7 +16,6 @@ export default function HomeFeed() {
   const [selectedScope, setSelectedScope] = useState<ListingType>('Local')
   const [selectedSort, setSelectedSort] = useState<SortType>('Active')
   const [nextFetchID, setNextFetchID] = useState<number>(1)
-  const [defaultCollapseState, setDefaultCollapseState] = useState(false)
 
   function appendPosts(newPosts: PostView[]) {
     setPosts(posts.concat(newPosts))
@@ -84,13 +83,6 @@ export default function HomeFeed() {
             setSelectedScope(scope)
           }}
         />
-        <Button
-          variant="light"
-          size="sm"
-          onClick={() => setDefaultCollapseState(!defaultCollapseState)}
-        >
-          <p className="text-[0.75em] text-default-200">Toggle Collapse</p>
-        </Button>
         <HomeFeedSortButtons
           selectedSort={selectedSort}
           setSelectedSort={(sort: SortType) => {
@@ -98,7 +90,7 @@ export default function HomeFeed() {
           }}
         />
       </div>
-      <PostFeed posts={posts} defaultCollapseState={defaultCollapseState} />
+      <PostFeed posts={posts} />
       {isLoading ? <Spinner /> : ''}
     </div>
   )

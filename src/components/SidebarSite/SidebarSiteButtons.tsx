@@ -92,7 +92,7 @@ export function SidebarSiteButtons({ site }: { site: GetSiteResponse }) {
               dangerouslySetInnerHTML={mdToHtml(
                 site?.site_view.site.sidebar ?? ''
               )}
-              className="prose mt-6 prose dark:prose-invert prose-img:my-1 prose-sm p-4"
+              className="prose mt-6 dark:prose-invert prose-img:my-1 prose-sm p-4 prose-code:text-xs"
             ></div>
           </CardBody>
         </Card>

@@ -80,35 +80,36 @@ export function getCommunityLink(community: CommunityView | Community): string {
 }
 
 export function getRelativeCommunityLink(
-  community: CommunityView | Community
+  community: CommunityView | Community,
+  addExlamation?: boolean
 ): string {
   if ((<CommunityView>community).community) {
     if ((<CommunityView>community).community.local) {
       const [, link] =
-        /.*:\/\/.*(\/c\/.*)/.exec(
+        /.*:\/\/.*\/c\/(.*)/.exec(
           (community as CommunityView).community.actor_id
         ) || []
 
-      return link
+      return addExlamation ? `!${link}` : link
     } else {
       const [, instance, link] =
-        /.*:\/\/(.*)(\/c\/.*)/.exec(
+        /.*:\/\/(.*)\/c\/(.*)/.exec(
           (community as CommunityView).community.actor_id
         ) || []
 
-      return `${link}@${instance}`
+      return addExlamation ? `!${link}@${instance}` : `${link}@${instance}`
     }
   } else {
     if ((<Community>community).local) {
       const [, link] =
-        /.*:\/\/.*(\/c\/.*)/.exec((community as Community).actor_id) || []
+        /.*:\/\/.*\/c\/(.*)/.exec((community as Community).actor_id) || []
 
-      return link
+      return addExlamation ? `!${link}` : link
     } else {
       const [, instance, link] =
-        /.*:\/\/(.*)(\/c\/.*)/.exec((community as Community).actor_id) || []
+        /.*:\/\/(.*)\/c\/(.*)/.exec((community as Community).actor_id) || []
 
-      return `${link}@${instance}`
+      return addExlamation ? `!${link}@${instance}` : `${link}@${instance}`
     }
   }
 }

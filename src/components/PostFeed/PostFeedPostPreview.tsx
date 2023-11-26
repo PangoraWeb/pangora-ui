@@ -24,7 +24,7 @@ export function PostFeedPostPreview({
   return (
     <div className="fixed z-20 flex w-full h-full left-0 top-14">
       <Link
-        className="absolute w-full h-full bg-black bg-opacity-75 hover:cursor-pointer"
+        className="absolute w-full h-full bg-black bg-opacity-95 hover:cursor-pointer"
         onClick={() => setPreview()}
       ></Link>
       <div className="w-2/3 ml-[33%] absolute flex">

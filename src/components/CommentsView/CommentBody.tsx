@@ -31,7 +31,7 @@ export function CommentBody({
       <CardBody className="py-1 pr-3 pl-2">
         {/* Comment Content */}
         <div
-          className="prose prose-invert max-w-none prose-sm ml-2"
+          className="prose prose-invert max-w-none prose-sm ml-2 prose-code:text-xs"
           dangerouslySetInnerHTML={mdToHtml(getCommentContent(comment))}
         />
 

@@ -1,15 +1,19 @@
 'use client'
 
 import { Avatar, Card, Image } from '@nextui-org/react'
-import { GetCommunityResponse, GetPostsResponse } from 'lemmy-js-client'
+import { GetCommunityResponse, PostView } from 'lemmy-js-client'
 import { PostFeed } from '../PostFeed'
+import {
+  getCommunityName,
+  getRelativeCommunityLink,
+} from '@/shared/libs/Lemmy/community'
 
 export default function CommunityNode({
-  community,
+  communities,
   posts,
 }: {
-  community: GetCommunityResponse
-  posts: GetPostsResponse
+  communities: GetCommunityResponse[]
+  posts: PostView[]
 }) {
   return (
     <div className="flex mt-4">
@@ -17,7 +21,7 @@ export default function CommunityNode({
         <Card className="bg-opacity-0">
           <div className="w-full h-[200px] overflow-hidden absolute">
             <Image
-              src={community.community_view.community.banner}
+              src={communities[0].community_view.community.banner}
               width={600}
               height={600}
               className="w-[100%] min-w-[100%] max-w-[100%]"
@@ -26,7 +30,7 @@ export default function CommunityNode({
           </div>
           <div className="mt-[136px] ml-[32px]">
             <Avatar
-              src={community?.community_view.community.icon}
+              src={communities[0]?.community_view.community.icon}
               className="rounded-full w-[128px] h-[128px]"
               size="lg"
             />
@@ -34,13 +38,21 @@ export default function CommunityNode({
           <div className="p-5">
             <div className="mb-6">
               <p className="text-2xl">
-                {community?.community_view.community.title}
+                {communities
+                  .map((community) =>
+                    getCommunityName(community.community_view)
+                  )
+                  .join(' + ')}
               </p>
               <p className="text-md">
-                !{community?.community_view.community.name}
+                {communities
+                  .map((community) =>
+                    getRelativeCommunityLink(community.community_view)
+                  )
+                  .join(', ')}
               </p>
             </div>
-            <PostFeed posts={posts.posts} />
+            <PostFeed posts={posts} />
           </div>
         </Card>
       </div>

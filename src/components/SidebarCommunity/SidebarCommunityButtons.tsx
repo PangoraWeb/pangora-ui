@@ -3,8 +3,14 @@ import { useState } from 'react'
 import DocumentIcon from '@/icons/DocumentIcon'
 import BarIcon from '@/icons/BarIcon'
 import UserIcon from '@/icons/UserIcon'
+import { hideCommunity } from '@/shared/libs/Lemmy/community'
+import { GetCommunityResponse } from 'lemmy-js-client'
 
-export function SidebarCommunityButtons() {
+export function SidebarCommunityButtons({
+  community,
+}: {
+  community: GetCommunityResponse
+}) {
   const [descriptionShown, setDescriptionShown] = useState(false)
   const [modsShown, setModsShown] = useState(false)
   const [statsShown, setStatsShown] = useState(false)
@@ -44,6 +50,13 @@ export function SidebarCommunityButtons() {
           onClick={() => toggleMods()}
         >
           <UserIcon />
+        </Button>
+        <Button
+          onClick={() => {
+            hideCommunity(community.community_view)
+          }}
+        >
+          Hide Community
         </Button>
       </ButtonGroup>
     </div>

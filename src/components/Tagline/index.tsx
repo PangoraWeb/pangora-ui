@@ -18,7 +18,7 @@ export default function Tagline() {
 
   return (
     <div
-      className="text-sm rounded prose prose-sm max-w-none prose-quote border-l-2 py-1 px-5 mt-4 mb-2 border-default-300"
+      className="text-sm rounded prose prose-sm max-w-none prose-code:text-sm prose-quote border-l-2 py-1 px-5 mt-4 mb-2 border-default-300"
       dangerouslySetInnerHTML={
         tagline?.content
           ? mdToHtml(`${tagline.content}`)

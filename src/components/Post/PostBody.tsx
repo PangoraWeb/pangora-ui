@@ -12,12 +12,12 @@ export default function PostBody({
     <div>
       {post.post.body ? (
         bodySourceActive ? (
-          <pre className="prose prose-invert prose-sm max-w-none">
+          <pre className="prose dark:prose-invert prose-sm max-w-none prose-code:text-xs">
             {post.post.body}
           </pre>
         ) : (
           <div
-            className="prose prose-invert prose-sm max-w-none"
+            className="prose dark:prose-invert prose-sm max-w-none prose-code:text-xs"
             dangerouslySetInnerHTML={mdToHtml(post.post.body)}
           />
         )
